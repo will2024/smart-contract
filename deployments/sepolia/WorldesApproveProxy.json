@@ -1,0 +1,384 @@
+{
+  "address": "0x18DA50b131Ef7d511D7275D77C21706CbAe97b3c",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "worldesApprove",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferPrepared",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "_IS_ALLOWED_PROXY_",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "_NEW_OWNER_",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "_OWNER_",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "_PENDING_ADD_WORLDES_PROXY_",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "_TIMELOCK_",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "_WORLDES_APPROVE_",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "addWorldesProxy",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "claimOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "who",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "dest",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "claimTokens",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address[]",
+          "name": "proxies",
+          "type": "address[]"
+        }
+      ],
+      "name": "init",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "initOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_proxy",
+          "type": "address"
+        }
+      ],
+      "name": "isAllowedProxy",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "lockAddProxy",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "oldSwapProxy",
+          "type": "address"
+        }
+      ],
+      "name": "removeWorldesProxy",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newSwapProxy",
+          "type": "address"
+        }
+      ],
+      "name": "unlockAddProxy",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x97336e136e43bb031148ff23435c54377f335c460c03366f35866bf8ed1759f0",
+  "receipt": {
+    "to": null,
+    "from": "0xd7B80c111500CB2f36077F9F69a4eC5bF16Ca947",
+    "contractAddress": "0x18DA50b131Ef7d511D7275D77C21706CbAe97b3c",
+    "transactionIndex": 87,
+    "gasUsed": "587215",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xc015539bae9262e93272b5e704bfc53b86c660f3f3983e3549920bbb4309444f",
+    "transactionHash": "0x97336e136e43bb031148ff23435c54377f335c460c03366f35866bf8ed1759f0",
+    "logs": [],
+    "blockNumber": 5746710,
+    "cumulativeGasUsed": "19074025",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x013B6e57bdC22198D395f0090Cc368669D015B0F"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "2bc52c20de8a37fa339f3a7b69b4b897",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.9+commit.3e3065ac\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"worldesApprove\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferPrepared\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"_IS_ALLOWED_PROXY_\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"_NEW_OWNER_\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"_OWNER_\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"_PENDING_ADD_WORLDES_PROXY_\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"_TIMELOCK_\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"_WORLDES_APPROVE_\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"addWorldesProxy\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"claimOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"who\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"dest\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"claimTokens\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"address[]\",\"name\":\"proxies\",\"type\":\"address[]\"}],\"name\":\"init\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"initOwner\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_proxy\",\"type\":\"address\"}],\"name\":\"isAllowedProxy\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"lockAddProxy\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oldSwapProxy\",\"type\":\"address\"}],\"name\":\"removeWorldesProxy\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newSwapProxy\",\"type\":\"address\"}],\"name\":\"unlockAddProxy\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{},\"title\":\"WorldesApproveProxy\"},\"userdoc\":{\"methods\":{},\"notice\":\"Allow different version worldesproxy to claim from WorldesApprove\"}},\"settings\":{\"compilationTarget\":{\"contracts/proxy/WorldesApproveProxy.sol\":\"WorldesApproveProxy\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/interfaces/IWorldesApprove.sol\":{\"content\":\"/*\\r\\n \\r\\n    SPDX-License-Identifier: Apache-2.0\\r\\n\\r\\n*/\\r\\n\\r\\npragma solidity 0.6.9;\\r\\n\\r\\ninterface IWorldesApprove {\\r\\n    function claimTokens(address token,address who,address dest,uint256 amount) external;\\r\\n    function getWorldesProxy() external view returns (address);\\r\\n}\\r\\n\",\"keccak256\":\"0x16e6dc195ddbe573eb428c0c7c41044f5289b5136590147084889e27e73a40b5\",\"license\":\"Apache-2.0\"},\"contracts/libraries/InitializableOwnable.sol\":{\"content\":\"/*\\r\\n \\r\\n    SPDX-License-Identifier: Apache-2.0\\r\\n\\r\\n*/\\r\\n\\r\\npragma solidity 0.6.9;\\r\\npragma experimental ABIEncoderV2;\\r\\n\\r\\n/**\\r\\n * @title Ownable\\r\\n  *\\r\\n * @notice Ownership related functions\\r\\n */\\r\\ncontract InitializableOwnable {\\r\\n    address public _OWNER_;\\r\\n    address public _NEW_OWNER_;\\r\\n    bool internal _INITIALIZED_;\\r\\n\\r\\n    // ============ Events ============\\r\\n\\r\\n    event OwnershipTransferPrepared(address indexed previousOwner, address indexed newOwner);\\r\\n\\r\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\r\\n\\r\\n    // ============ Modifiers ============\\r\\n\\r\\n    modifier notInitialized() {\\r\\n        require(!_INITIALIZED_, \\\"_INITIALIZED\\\");\\r\\n        _;\\r\\n    }\\r\\n\\r\\n    modifier onlyOwner() {\\r\\n        require(msg.sender == _OWNER_, \\\"NOT_OWNER\\\");\\r\\n        _;\\r\\n    }\\r\\n\\r\\n    // ============ Functions ============\\r\\n\\r\\n    function initOwner(address newOwner) public notInitialized {\\r\\n        _INITIALIZED_ = true;\\r\\n        _OWNER_ = newOwner;\\r\\n    }\\r\\n\\r\\n    function transferOwnership(address newOwner) public onlyOwner {\\r\\n        emit OwnershipTransferPrepared(_OWNER_, newOwner);\\r\\n        _NEW_OWNER_ = newOwner;\\r\\n    }\\r\\n\\r\\n    function claimOwnership() public {\\r\\n        require(msg.sender == _NEW_OWNER_, \\\"INVALID_CLAIM\\\");\\r\\n        emit OwnershipTransferred(_OWNER_, _NEW_OWNER_);\\r\\n        _OWNER_ = _NEW_OWNER_;\\r\\n        _NEW_OWNER_ = address(0);\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0xfe6ac3ca14bc72355847e9a53052d5007d24155214135116feefabcc135a57e0\",\"license\":\"Apache-2.0\"},\"contracts/proxy/WorldesApproveProxy.sol\":{\"content\":\"/*\\r\\n \\r\\n    SPDX-License-Identifier: Apache-2.0\\r\\n\\r\\n*/\\r\\n\\r\\npragma solidity 0.6.9;\\r\\npragma experimental ABIEncoderV2;\\r\\n\\r\\nimport {IWorldesApprove} from \\\"../interfaces/IWorldesApprove.sol\\\";\\r\\nimport {InitializableOwnable} from \\\"../libraries/InitializableOwnable.sol\\\";\\r\\n\\r\\ninterface IWorldesApproveProxy {\\r\\n    function isAllowedProxy(address _proxy) external view returns (bool);\\r\\n    function claimTokens(address token,address who,address dest,uint256 amount) external;\\r\\n}\\r\\n\\r\\n/**\\r\\n * @title WorldesApproveProxy\\r\\n  *\\r\\n * @notice Allow different version worldesproxy to claim from WorldesApprove\\r\\n */\\r\\ncontract WorldesApproveProxy is InitializableOwnable {\\r\\n    \\r\\n    // ============ Storage ============\\r\\n    uint256 private constant _TIMELOCK_DURATION_ = 3 days;\\r\\n    mapping (address => bool) public _IS_ALLOWED_PROXY_;\\r\\n    uint256 public _TIMELOCK_;\\r\\n    address public _PENDING_ADD_WORLDES_PROXY_;\\r\\n    address public immutable _WORLDES_APPROVE_;\\r\\n\\r\\n    // ============ Modifiers ============\\r\\n    modifier notLocked() {\\r\\n        require(\\r\\n            _TIMELOCK_ <= block.timestamp,\\r\\n            \\\"SetProxy is timelocked\\\"\\r\\n        );\\r\\n        _;\\r\\n    }\\r\\n\\r\\n    constructor(address worldesApprove) public {\\r\\n        _WORLDES_APPROVE_ = worldesApprove;\\r\\n    }\\r\\n\\r\\n    function init(address owner, address[] memory proxies) external {\\r\\n        initOwner(owner);\\r\\n        for(uint i = 0; i < proxies.length; i++) \\r\\n            _IS_ALLOWED_PROXY_[proxies[i]] = true;\\r\\n    }\\r\\n\\r\\n    function unlockAddProxy(address newSwapProxy) public onlyOwner {\\r\\n        _TIMELOCK_ = block.timestamp + _TIMELOCK_DURATION_;\\r\\n        _PENDING_ADD_WORLDES_PROXY_ = newSwapProxy;\\r\\n    }\\r\\n\\r\\n    function lockAddProxy() public onlyOwner {\\r\\n       _PENDING_ADD_WORLDES_PROXY_ = address(0);\\r\\n       _TIMELOCK_ = 0;\\r\\n    }\\r\\n\\r\\n\\r\\n    function addWorldesProxy() external onlyOwner notLocked() {\\r\\n        _IS_ALLOWED_PROXY_[_PENDING_ADD_WORLDES_PROXY_] = true;\\r\\n        lockAddProxy();\\r\\n    }\\r\\n\\r\\n    function removeWorldesProxy (address oldSwapProxy) public onlyOwner {\\r\\n        _IS_ALLOWED_PROXY_[oldSwapProxy] = false;\\r\\n    }\\r\\n    \\r\\n    function claimTokens(\\r\\n        address token,\\r\\n        address who,\\r\\n        address dest,\\r\\n        uint256 amount\\r\\n    ) external {\\r\\n        require(_IS_ALLOWED_PROXY_[msg.sender], \\\"WorldesApproveProxy:Access restricted\\\");\\r\\n        IWorldesApprove(_WORLDES_APPROVE_).claimTokens(\\r\\n            token,\\r\\n            who,\\r\\n            dest,\\r\\n            amount\\r\\n        );\\r\\n    }\\r\\n\\r\\n    function isAllowedProxy(address _proxy) external view returns (bool) {\\r\\n        return _IS_ALLOWED_PROXY_[_proxy];\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0xf29fec5cd4de23e8004eccf73d135b49252e26005e8f209101429f1889e3724e\",\"license\":\"Apache-2.0\"}},\"version\":1}",
+  "bytecode": "0x60a060405234801561001057600080fd5b50604051610a33380380610a3383398101604081905261002f91610044565b60601b6001600160601b031916608052610072565b600060208284031215610055578081fd5b81516001600160a01b038116811461006b578182fd5b9392505050565b60805160601c61099f610094600039806102115280610282525061099f6000f3fe608060405234801561001057600080fd5b50600436106101005760003560e01c80633dc3abae116100975780638456db15116100665780638456db15146101d7578063973b6d36146101df578063b75dbf68146101e7578063f2fde38b146101fc57610100565b80633dc3abae146101a157806348a4f993146101b45780634e71e0c8146101c7578063556d65a8146101cf57610100565b80632293171c116100d35780632293171c14610153578063374445b21461015b5780633b2f27bb1461016e5780633c5a3cea1461018e57610100565b8063094a2f76146101055780630a5ea466146101235780630d0092971461013857806316048bc41461014b575b600080fd5b61010d61020f565b60405161011a91906107d3565b60405180910390f35b6101366101313660046106cf565b610233565b005b6101366101463660046106ad565b6102f5565b61010d610355565b61010d610364565b6101366101693660046106ad565b610373565b61018161017c3660046106ad565b6103c8565b60405161011a9190610811565b61013661019c36600461071f565b6103dd565b6101366101af3660046106ad565b610443565b6101816101c23660046106ad565b61048e565b6101366104ac565b61013661053a565b61010d61057b565b61013661058a565b6101ef610605565b60405161011a9190610901565b61013661020a3660046106ad565b61060b565b7f000000000000000000000000000000000000000000000000000000000000000081565b3360009081526002602052604090205460ff1661026b5760405162461bcd60e51b815260040161026290610899565b60405180910390fd5b60405163052f523360e11b81526001600160a01b037f00000000000000000000000000000000000000000000000000000000000000001690630a5ea466906102bd9087908790879087906004016107e7565b600060405180830381600087803b1580156102d757600080fd5b505af11580156102eb573d6000803e3d6000fd5b5050505050505050565b600154600160a01b900460ff161561031f5760405162461bcd60e51b815260040161026290610843565b6001805460ff60a01b1916600160a01b179055600080546001600160a01b039092166001600160a01b0319909216919091179055565b6000546001600160a01b031681565b6004546001600160a01b031681565b6000546001600160a01b0316331461039d5760405162461bcd60e51b8152600401610262906108de565b6203f4804201600355600480546001600160a01b0319166001600160a01b0392909216919091179055565b60026020526000908152604090205460ff1681565b6103e6826102f5565b60005b815181101561043e5760016002600084848151811061040457fe5b6020908102919091018101516001600160a01b03168252810191909152604001600020805460ff19169115159190911790556001016103e9565b505050565b6000546001600160a01b0316331461046d5760405162461bcd60e51b8152600401610262906108de565b6001600160a01b03166000908152600260205260409020805460ff19169055565b6001600160a01b031660009081526002602052604090205460ff1690565b6001546001600160a01b031633146104d65760405162461bcd60e51b81526004016102629061081c565b600154600080546040516001600160a01b0393841693909116917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a360018054600080546001600160a01b03199081166001600160a01b03841617909155169055565b6000546001600160a01b031633146105645760405162461bcd60e51b8152600401610262906108de565b600480546001600160a01b03191690556000600355565b6001546001600160a01b031681565b6000546001600160a01b031633146105b45760405162461bcd60e51b8152600401610262906108de565b4260035411156105d65760405162461bcd60e51b815260040161026290610869565b6004546001600160a01b03166000908152600260205260409020805460ff1916600117905561060361053a565b565b60035481565b6000546001600160a01b031633146106355760405162461bcd60e51b8152600401610262906108de565b600080546040516001600160a01b03808516939216917fdcf55418cee3220104fef63f979ff3c4097ad240c0c43dcb33ce837748983e6291a3600180546001600160a01b0319166001600160a01b0392909216919091179055565b80356001600160a01b03811681146106a757600080fd5b92915050565b6000602082840312156106be578081fd5b6106c88383610690565b9392505050565b600080600080608085870312156106e4578283fd5b84356106ef81610951565b935060208501356106ff81610951565b9250604085013561070f81610951565b9396929550929360600135925050565b60008060408385031215610731578182fd5b61073b8484610690565b915060208084013567ffffffffffffffff811115610757578283fd5b80850186601f820112610768578384fd5b8035915061077d61077883610931565b61090a565b82815283810190828501858502840186018a1015610799578687fd5b8693505b848410156107c3576107af8a82610690565b83526001939093019291850191850161079d565b5080955050505050509250929050565b6001600160a01b0391909116815260200190565b6001600160a01b039485168152928416602084015292166040820152606081019190915260800190565b901515815260200190565b6020808252600d908201526c494e56414c49445f434c41494d60981b604082015260600190565b6020808252600c908201526b17d25392551250531256915160a21b604082015260600190565b60208082526016908201527514d95d141c9bde1e481a5cc81d1a5b595b1bd8dad95960521b604082015260600190565b60208082526025908201527f576f726c646573417070726f766550726f78793a4163636573732072657374726040820152641a58dd195960da1b606082015260800190565b6020808252600990820152682727aa2fa7aba722a960b91b604082015260600190565b90815260200190565b60405181810167ffffffffffffffff8111828210171561092957600080fd5b604052919050565b600067ffffffffffffffff821115610947578081fd5b5060209081020190565b6001600160a01b038116811461096657600080fd5b5056fea264697066735822122024fc3ccdba42782cb2fb493966c8cd55e2b14869d2090915b4158a74718592f664736f6c63430006090033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106101005760003560e01c80633dc3abae116100975780638456db15116100665780638456db15146101d7578063973b6d36146101df578063b75dbf68146101e7578063f2fde38b146101fc57610100565b80633dc3abae146101a157806348a4f993146101b45780634e71e0c8146101c7578063556d65a8146101cf57610100565b80632293171c116100d35780632293171c14610153578063374445b21461015b5780633b2f27bb1461016e5780633c5a3cea1461018e57610100565b8063094a2f76146101055780630a5ea466146101235780630d0092971461013857806316048bc41461014b575b600080fd5b61010d61020f565b60405161011a91906107d3565b60405180910390f35b6101366101313660046106cf565b610233565b005b6101366101463660046106ad565b6102f5565b61010d610355565b61010d610364565b6101366101693660046106ad565b610373565b61018161017c3660046106ad565b6103c8565b60405161011a9190610811565b61013661019c36600461071f565b6103dd565b6101366101af3660046106ad565b610443565b6101816101c23660046106ad565b61048e565b6101366104ac565b61013661053a565b61010d61057b565b61013661058a565b6101ef610605565b60405161011a9190610901565b61013661020a3660046106ad565b61060b565b7f000000000000000000000000000000000000000000000000000000000000000081565b3360009081526002602052604090205460ff1661026b5760405162461bcd60e51b815260040161026290610899565b60405180910390fd5b60405163052f523360e11b81526001600160a01b037f00000000000000000000000000000000000000000000000000000000000000001690630a5ea466906102bd9087908790879087906004016107e7565b600060405180830381600087803b1580156102d757600080fd5b505af11580156102eb573d6000803e3d6000fd5b5050505050505050565b600154600160a01b900460ff161561031f5760405162461bcd60e51b815260040161026290610843565b6001805460ff60a01b1916600160a01b179055600080546001600160a01b039092166001600160a01b0319909216919091179055565b6000546001600160a01b031681565b6004546001600160a01b031681565b6000546001600160a01b0316331461039d5760405162461bcd60e51b8152600401610262906108de565b6203f4804201600355600480546001600160a01b0319166001600160a01b0392909216919091179055565b60026020526000908152604090205460ff1681565b6103e6826102f5565b60005b815181101561043e5760016002600084848151811061040457fe5b6020908102919091018101516001600160a01b03168252810191909152604001600020805460ff19169115159190911790556001016103e9565b505050565b6000546001600160a01b0316331461046d5760405162461bcd60e51b8152600401610262906108de565b6001600160a01b03166000908152600260205260409020805460ff19169055565b6001600160a01b031660009081526002602052604090205460ff1690565b6001546001600160a01b031633146104d65760405162461bcd60e51b81526004016102629061081c565b600154600080546040516001600160a01b0393841693909116917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a360018054600080546001600160a01b03199081166001600160a01b03841617909155169055565b6000546001600160a01b031633146105645760405162461bcd60e51b8152600401610262906108de565b600480546001600160a01b03191690556000600355565b6001546001600160a01b031681565b6000546001600160a01b031633146105b45760405162461bcd60e51b8152600401610262906108de565b4260035411156105d65760405162461bcd60e51b815260040161026290610869565b6004546001600160a01b03166000908152600260205260409020805460ff1916600117905561060361053a565b565b60035481565b6000546001600160a01b031633146106355760405162461bcd60e51b8152600401610262906108de565b600080546040516001600160a01b03808516939216917fdcf55418cee3220104fef63f979ff3c4097ad240c0c43dcb33ce837748983e6291a3600180546001600160a01b0319166001600160a01b0392909216919091179055565b80356001600160a01b03811681146106a757600080fd5b92915050565b6000602082840312156106be578081fd5b6106c88383610690565b9392505050565b600080600080608085870312156106e4578283fd5b84356106ef81610951565b935060208501356106ff81610951565b9250604085013561070f81610951565b9396929550929360600135925050565b60008060408385031215610731578182fd5b61073b8484610690565b915060208084013567ffffffffffffffff811115610757578283fd5b80850186601f820112610768578384fd5b8035915061077d61077883610931565b61090a565b82815283810190828501858502840186018a1015610799578687fd5b8693505b848410156107c3576107af8a82610690565b83526001939093019291850191850161079d565b5080955050505050509250929050565b6001600160a01b0391909116815260200190565b6001600160a01b039485168152928416602084015292166040820152606081019190915260800190565b901515815260200190565b6020808252600d908201526c494e56414c49445f434c41494d60981b604082015260600190565b6020808252600c908201526b17d25392551250531256915160a21b604082015260600190565b60208082526016908201527514d95d141c9bde1e481a5cc81d1a5b595b1bd8dad95960521b604082015260600190565b60208082526025908201527f576f726c646573417070726f766550726f78793a4163636573732072657374726040820152641a58dd195960da1b606082015260800190565b6020808252600990820152682727aa2fa7aba722a960b91b604082015260600190565b90815260200190565b60405181810167ffffffffffffffff8111828210171561092957600080fd5b604052919050565b600067ffffffffffffffff821115610947578081fd5b5060209081020190565b6001600160a01b038116811461096657600080fd5b5056fea264697066735822122024fc3ccdba42782cb2fb493966c8cd55e2b14869d2090915b4158a74718592f664736f6c63430006090033",
+  "devdoc": {
+    "methods": {},
+    "title": "WorldesApproveProxy"
+  },
+  "userdoc": {
+    "methods": {},
+    "notice": "Allow different version worldesproxy to claim from WorldesApprove"
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 2160,
+        "contract": "contracts/proxy/WorldesApproveProxy.sol:WorldesApproveProxy",
+        "label": "_OWNER_",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 2162,
+        "contract": "contracts/proxy/WorldesApproveProxy.sol:WorldesApproveProxy",
+        "label": "_NEW_OWNER_",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_address"
+      },
+      {
+        "astId": 2164,
+        "contract": "contracts/proxy/WorldesApproveProxy.sol:WorldesApproveProxy",
+        "label": "_INITIALIZED_",
+        "offset": 20,
+        "slot": "1",
+        "type": "t_bool"
+      },
+      {
+        "astId": 4090,
+        "contract": "contracts/proxy/WorldesApproveProxy.sol:WorldesApproveProxy",
+        "label": "_IS_ALLOWED_PROXY_",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_address,t_bool)"
+      },
+      {
+        "astId": 4092,
+        "contract": "contracts/proxy/WorldesApproveProxy.sol:WorldesApproveProxy",
+        "label": "_TIMELOCK_",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 4094,
+        "contract": "contracts/proxy/WorldesApproveProxy.sol:WorldesApproveProxy",
+        "label": "_PENDING_ADD_WORLDES_PROXY_",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_address"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_address,t_bool)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => bool)",
+        "numberOfBytes": "32",
+        "value": "t_bool"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}

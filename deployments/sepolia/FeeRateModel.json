@@ -1,0 +1,223 @@
+{
+  "address": "0x13C5Ce56499787d6e44e2b63A15264C4eB5d75dF",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferPrepared",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "_NEW_OWNER_",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "_OWNER_",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "claimOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "feeRateImpl",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "trader",
+          "type": "address"
+        }
+      ],
+      "name": "getFeeRate",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "initOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_feeRateImpl",
+          "type": "address"
+        }
+      ],
+      "name": "setFeeProxy",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x8aa8bb2ec91a897514b2691bc83108f6a3e01899bba99f413da4a79677637d4e",
+  "receipt": {
+    "to": null,
+    "from": "0xd7B80c111500CB2f36077F9F69a4eC5bF16Ca947",
+    "contractAddress": "0x13C5Ce56499787d6e44e2b63A15264C4eB5d75dF",
+    "transactionIndex": 107,
+    "gasUsed": "321755",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xe2bb0b06815812a1a7c9e5f50b76edf4a201a1a73361d94487336eea40d74459",
+    "transactionHash": "0x8aa8bb2ec91a897514b2691bc83108f6a3e01899bba99f413da4a79677637d4e",
+    "logs": [],
+    "blockNumber": 5746706,
+    "cumulativeGasUsed": "13904641",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "2bc52c20de8a37fa339f3a7b69b4b897",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.9+commit.3e3065ac\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferPrepared\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"_NEW_OWNER_\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"_OWNER_\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"claimOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"feeRateImpl\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"trader\",\"type\":\"address\"}],\"name\":\"getFeeRate\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"initOwner\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_feeRateImpl\",\"type\":\"address\"}],\"name\":\"setFeeProxy\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"contracts/libraries/FeeRateModel.sol\":\"FeeRateModel\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/libraries/FeeRateModel.sol\":{\"content\":\"/*\\r\\n \\r\\n    SPDX-License-Identifier: Apache-2.0\\r\\n\\r\\n*/\\r\\n\\r\\npragma solidity 0.6.9;\\r\\npragma experimental ABIEncoderV2;\\r\\n\\r\\nimport {InitializableOwnable} from \\\"../libraries/InitializableOwnable.sol\\\";\\r\\n\\r\\ninterface IFeeRateImpl {\\r\\n    function getFeeRate(address pool, address trader) external view returns (uint256);\\r\\n}\\r\\n\\r\\ninterface IFeeRateModel {\\r\\n    function getFeeRate(address trader) external view returns (uint256);\\r\\n}\\r\\n\\r\\ncontract FeeRateModel is InitializableOwnable {\\r\\n    address public feeRateImpl;\\r\\n\\r\\n    function setFeeProxy(address _feeRateImpl) public onlyOwner {\\r\\n        feeRateImpl = _feeRateImpl;\\r\\n    }\\r\\n    \\r\\n    function getFeeRate(address trader) external view returns (uint256) {\\r\\n        if(feeRateImpl == address(0))\\r\\n            return 0;\\r\\n        return IFeeRateImpl(feeRateImpl).getFeeRate(msg.sender,trader);\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0x583ff0af353ce149f1f0a6996bd5ef50b8969390719ba95b2537f0ae88874be0\",\"license\":\"Apache-2.0\"},\"contracts/libraries/InitializableOwnable.sol\":{\"content\":\"/*\\r\\n \\r\\n    SPDX-License-Identifier: Apache-2.0\\r\\n\\r\\n*/\\r\\n\\r\\npragma solidity 0.6.9;\\r\\npragma experimental ABIEncoderV2;\\r\\n\\r\\n/**\\r\\n * @title Ownable\\r\\n  *\\r\\n * @notice Ownership related functions\\r\\n */\\r\\ncontract InitializableOwnable {\\r\\n    address public _OWNER_;\\r\\n    address public _NEW_OWNER_;\\r\\n    bool internal _INITIALIZED_;\\r\\n\\r\\n    // ============ Events ============\\r\\n\\r\\n    event OwnershipTransferPrepared(address indexed previousOwner, address indexed newOwner);\\r\\n\\r\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\r\\n\\r\\n    // ============ Modifiers ============\\r\\n\\r\\n    modifier notInitialized() {\\r\\n        require(!_INITIALIZED_, \\\"_INITIALIZED\\\");\\r\\n        _;\\r\\n    }\\r\\n\\r\\n    modifier onlyOwner() {\\r\\n        require(msg.sender == _OWNER_, \\\"NOT_OWNER\\\");\\r\\n        _;\\r\\n    }\\r\\n\\r\\n    // ============ Functions ============\\r\\n\\r\\n    function initOwner(address newOwner) public notInitialized {\\r\\n        _INITIALIZED_ = true;\\r\\n        _OWNER_ = newOwner;\\r\\n    }\\r\\n\\r\\n    function transferOwnership(address newOwner) public onlyOwner {\\r\\n        emit OwnershipTransferPrepared(_OWNER_, newOwner);\\r\\n        _NEW_OWNER_ = newOwner;\\r\\n    }\\r\\n\\r\\n    function claimOwnership() public {\\r\\n        require(msg.sender == _NEW_OWNER_, \\\"INVALID_CLAIM\\\");\\r\\n        emit OwnershipTransferred(_OWNER_, _NEW_OWNER_);\\r\\n        _OWNER_ = _NEW_OWNER_;\\r\\n        _NEW_OWNER_ = address(0);\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0xfe6ac3ca14bc72355847e9a53052d5007d24155214135116feefabcc135a57e0\",\"license\":\"Apache-2.0\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506104db806100206000396000f3fe608060405234801561001057600080fd5b50600436106100885760003560e01c80634e71e0c81161005b5780634e71e0c8146100db5780638198edbf146100e35780638456db1514610103578063f2fde38b1461010b57610088565b80630d0092971461008d57806316048bc4146100a257806325be0be1146100c057806339b96500146100d3575b600080fd5b6100a061009b3660046103b8565b61011e565b005b6100aa610187565b6040516100b791906103fe565b60405180910390f35b6100a06100ce3660046103b8565b610196565b6100aa6101e2565b6100a06101f1565b6100f66100f13660046103b8565b61027f565b6040516100b7919061049c565b6100aa610324565b6100a06101193660046103b8565b610333565b600154600160a01b900460ff16156101515760405162461bcd60e51b815260040161014890610453565b60405180910390fd5b6001805460ff60a01b1916600160a01b179055600080546001600160a01b039092166001600160a01b0319909216919091179055565b6000546001600160a01b031681565b6000546001600160a01b031633146101c05760405162461bcd60e51b815260040161014890610479565b600280546001600160a01b0319166001600160a01b0392909216919091179055565b6002546001600160a01b031681565b6001546001600160a01b0316331461021b5760405162461bcd60e51b81526004016101489061042c565b600154600080546040516001600160a01b0393841693909116917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a360018054600080546001600160a01b03199081166001600160a01b03841617909155169055565b6002546000906001600160a01b031661029a5750600061031f565b60025460405163848cc30360e01b81526001600160a01b039091169063848cc303906102cc9033908690600401610412565b60206040518083038186803b1580156102e457600080fd5b505afa1580156102f8573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061031c91906103e6565b90505b919050565b6001546001600160a01b031681565b6000546001600160a01b0316331461035d5760405162461bcd60e51b815260040161014890610479565b600080546040516001600160a01b03808516939216917fdcf55418cee3220104fef63f979ff3c4097ad240c0c43dcb33ce837748983e6291a3600180546001600160a01b0319166001600160a01b0392909216919091179055565b6000602082840312156103c9578081fd5b81356001600160a01b03811681146103df578182fd5b9392505050565b6000602082840312156103f7578081fd5b5051919050565b6001600160a01b0391909116815260200190565b6001600160a01b0392831681529116602082015260400190565b6020808252600d908201526c494e56414c49445f434c41494d60981b604082015260600190565b6020808252600c908201526b17d25392551250531256915160a21b604082015260600190565b6020808252600990820152682727aa2fa7aba722a960b91b604082015260600190565b9081526020019056fea26469706673582212209634c4a392a8750055bcf49b7dd99574fb52e9234902babf6f916b31c6e213fb64736f6c63430006090033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100885760003560e01c80634e71e0c81161005b5780634e71e0c8146100db5780638198edbf146100e35780638456db1514610103578063f2fde38b1461010b57610088565b80630d0092971461008d57806316048bc4146100a257806325be0be1146100c057806339b96500146100d3575b600080fd5b6100a061009b3660046103b8565b61011e565b005b6100aa610187565b6040516100b791906103fe565b60405180910390f35b6100a06100ce3660046103b8565b610196565b6100aa6101e2565b6100a06101f1565b6100f66100f13660046103b8565b61027f565b6040516100b7919061049c565b6100aa610324565b6100a06101193660046103b8565b610333565b600154600160a01b900460ff16156101515760405162461bcd60e51b815260040161014890610453565b60405180910390fd5b6001805460ff60a01b1916600160a01b179055600080546001600160a01b039092166001600160a01b0319909216919091179055565b6000546001600160a01b031681565b6000546001600160a01b031633146101c05760405162461bcd60e51b815260040161014890610479565b600280546001600160a01b0319166001600160a01b0392909216919091179055565b6002546001600160a01b031681565b6001546001600160a01b0316331461021b5760405162461bcd60e51b81526004016101489061042c565b600154600080546040516001600160a01b0393841693909116917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a360018054600080546001600160a01b03199081166001600160a01b03841617909155169055565b6002546000906001600160a01b031661029a5750600061031f565b60025460405163848cc30360e01b81526001600160a01b039091169063848cc303906102cc9033908690600401610412565b60206040518083038186803b1580156102e457600080fd5b505afa1580156102f8573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061031c91906103e6565b90505b919050565b6001546001600160a01b031681565b6000546001600160a01b0316331461035d5760405162461bcd60e51b815260040161014890610479565b600080546040516001600160a01b03808516939216917fdcf55418cee3220104fef63f979ff3c4097ad240c0c43dcb33ce837748983e6291a3600180546001600160a01b0319166001600160a01b0392909216919091179055565b6000602082840312156103c9578081fd5b81356001600160a01b03811681146103df578182fd5b9392505050565b6000602082840312156103f7578081fd5b5051919050565b6001600160a01b0391909116815260200190565b6001600160a01b0392831681529116602082015260400190565b6020808252600d908201526c494e56414c49445f434c41494d60981b604082015260600190565b6020808252600c908201526b17d25392551250531256915160a21b604082015260600190565b6020808252600990820152682727aa2fa7aba722a960b91b604082015260600190565b9081526020019056fea26469706673582212209634c4a392a8750055bcf49b7dd99574fb52e9234902babf6f916b31c6e213fb64736f6c63430006090033",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 2160,
+        "contract": "contracts/libraries/FeeRateModel.sol:FeeRateModel",
+        "label": "_OWNER_",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 2162,
+        "contract": "contracts/libraries/FeeRateModel.sol:FeeRateModel",
+        "label": "_NEW_OWNER_",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_address"
+      },
+      {
+        "astId": 2164,
+        "contract": "contracts/libraries/FeeRateModel.sol:FeeRateModel",
+        "label": "_INITIALIZED_",
+        "offset": 20,
+        "slot": "1",
+        "type": "t_bool"
+      },
+      {
+        "astId": 2115,
+        "contract": "contracts/libraries/FeeRateModel.sol:FeeRateModel",
+        "label": "feeRateImpl",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_address"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      }
+    }
+  }
+}

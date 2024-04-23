@@ -1,0 +1,56 @@
+{
+  "address": "0xb3EABd3233FF3517F213b5755838a646f029976f",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "prototype",
+          "type": "address"
+        }
+      ],
+      "name": "clone",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "proxy",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x213e58799850105da9ed638008e3d65d15d5a5c5772d867e8d19d9660e57be0f",
+  "receipt": {
+    "to": null,
+    "from": "0xd7B80c111500CB2f36077F9F69a4eC5bF16Ca947",
+    "contractAddress": "0xb3EABd3233FF3517F213b5755838a646f029976f",
+    "transactionIndex": 53,
+    "gasUsed": "113961",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x05d756f55136a199123f4f757cf1b38427485583d8c2a4a53950ea58c086836f",
+    "transactionHash": "0x213e58799850105da9ed638008e3d65d15d5a5c5772d867e8d19d9660e57be0f",
+    "logs": [],
+    "blockNumber": 5746705,
+    "cumulativeGasUsed": "6907553",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "2bc52c20de8a37fa339f3a7b69b4b897",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.9+commit.3e3065ac\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"prototype\",\"type\":\"address\"}],\"name\":\"clone\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"proxy\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"contracts/libraries/CloneFactory.sol\":\"CloneFactory\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/libraries/CloneFactory.sol\":{\"content\":\"/*\\r\\n \\r\\n    SPDX-License-Identifier: Apache-2.0\\r\\n\\r\\n*/\\r\\n\\r\\npragma solidity 0.6.9;\\r\\npragma experimental ABIEncoderV2;\\r\\n\\r\\ninterface ICloneFactory {\\r\\n    function clone(address prototype) external returns (address proxy);\\r\\n}\\r\\n\\r\\n// introduction of proxy mode design: https://docs.openzeppelin.com/upgrades/2.8/\\r\\n// minimum implementation of transparent proxy: https://eips.ethereum.org/EIPS/eip-1167\\r\\n\\r\\ncontract CloneFactory is ICloneFactory {\\r\\n    function clone(address prototype) external override returns (address proxy) {\\r\\n        bytes20 targetBytes = bytes20(prototype);\\r\\n        assembly {\\r\\n            let clone := mload(0x40)\\r\\n            mstore(clone, 0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000)\\r\\n            mstore(add(clone, 0x14), targetBytes)\\r\\n            mstore(\\r\\n                add(clone, 0x28),\\r\\n                0x5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000\\r\\n            )\\r\\n            proxy := create(0, clone, 0x37)\\r\\n        }\\r\\n        return proxy;\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0xf6069191f18849ec376dbcd063eab2f4a6e6fcd888bee6da2e717e57f8dd363d\",\"license\":\"Apache-2.0\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610118806100206000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c80638124b78e14602d575b600080fd5b603c603836600460a2565b6050565b6040516047919060ce565b60405180910390f35b6000808260601b9050604051733d602d80600a3d3981f3363d3d373d3d3d363d7360601b81528160148201526e5af43d82803e903d91602b57fd5bf360881b60288201526037816000f0949350505050565b60006020828403121560b2578081fd5b81356001600160a01b038116811460c7578182fd5b9392505050565b6001600160a01b039190911681526020019056fea2646970667358221220ecbf863d747ecf672e4daa2d91bfe902108f9153c63d212dc7a5484b641e8a8064736f6c63430006090033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060285760003560e01c80638124b78e14602d575b600080fd5b603c603836600460a2565b6050565b6040516047919060ce565b60405180910390f35b6000808260601b9050604051733d602d80600a3d3981f3363d3d373d3d3d363d7360601b81528160148201526e5af43d82803e903d91602b57fd5bf360881b60288201526037816000f0949350505050565b60006020828403121560b2578081fd5b81356001600160a01b038116811460c7578182fd5b9392505050565b6001600160a01b039190911681526020019056fea2646970667358221220ecbf863d747ecf672e4daa2d91bfe902108f9153c63d212dc7a5484b641e8a8064736f6c63430006090033",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}
