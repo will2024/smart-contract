@@ -1,6 +1,13 @@
 {
   "name": "worldes",
+  "scripts": {
+    "auth": "graph auth --studio 5ec5018e3ab636f2737b702bdcbf917d",
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --studio worldes-sopelia",
+  },
   "dependencies": {
+    "@openzeppelin/contracts": "^4.8.0",
     "@poanet/solidity-flattener": "^3.0.9",
     "clean": "^4.0.2",
     "hardhat": "^2.20.1"
@@ -14,6 +21,7 @@
     "bluebird": "^3.7.2",
     "dotenv": "^16.4.5",
     "hardhat-deploy": "^0.12.1",
-    "mustache": "^4.2.0"
+    "mustache": "^4.2.0",
+    "typescript": "^5.4.5"
   }
 }

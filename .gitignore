@@ -9,4 +9,12 @@ typechain-types
 cache
 artifacts
 
+#graph files
+generated
+build
+graph/generated
+graph/build
+subgraph.yaml
+```
+
 .vscode

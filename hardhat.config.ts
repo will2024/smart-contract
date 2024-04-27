@@ -16,6 +16,15 @@ const config: HardhatUserConfig = {
         }
       },
       {
+        version: "0.8.8",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200
+          }
+        }
+      },
+      {
         version: "0.8.10",
         settings: {
           optimizer: {
@@ -29,10 +38,6 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       allowUnlimitedContractSize: true,
-    },
-    bevm_testnet: {
-      url: "https://canary-testnet.bevm.io",
-      accounts: [process.env.PRIVATE_KEY || ""],
     },
     goerli: {
       url: "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
@@ -58,19 +63,7 @@ const config: HardhatUserConfig = {
     currency: "USD",
   },
   etherscan: {
-    apiKey: {
-      bevm_testnet: "3SGTMB5DR8ZHNSBZUXZRQCB5M3PV6FZYKA"
-    },
-    customChains: [
-      {
-        network: "bevm_testnet",
-        chainId: 1502,
-        urls: {
-          apiURL: "https://canary-testnet.bevm.io",
-          browserURL: "https://scan-canary-testnet.bevm.io/"
-        }
-      }
-    ]
+    apiKey: process.env.ETHERSCAN_API_KEY,
   },
   mocha: {
     timeout: 0,
