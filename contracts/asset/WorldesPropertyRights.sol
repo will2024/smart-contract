@@ -7,36 +7,43 @@ import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {ERC721Enumerable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import {ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract WorldesRWA is 
+contract WorldesPropertyRights is 
     Ownable,
     ERC721Enumerable, 
     ERC721URIStorage
 {
-    enum RwaStatus {
+    enum AssetStatus {
         Tradable,
         Untradable,
         Voided
     }
 
     uint256 private _nextTokenId = 1;
-    RwaStatus public _RWA_STATUS_ = RwaStatus.Tradable;
-    mapping(uint256 => RwaStatus) public _RWA_STATUS_BY_TOKEN_;
+    mapping(uint256 => AssetStatus) public _ASSET_STATUS_BY_TOKEN_ID_;
+    //asset_tokenId => rwa_erc20_Address
+    mapping(uint256 => address) public _TOKEN_ID_TO_RWA_ADDRESS_;
+    //rwa_erc20_Address => asset_tokenId
+    mapping(address => uint256) public _RWA_ADDRESS_TO_TOKEN_ID_;
 
     address public _NOTRAY_ADMIN_;
     address public _MINTER_ADMIN_;
+    address public _WORLDES_RWA_TOKEN_FACTORY_;
 
     error ErrZeroAddress();
     error ErrCallerIsNotNotaryAdmin(address caller, address notaryAdmin);
     error ErrCallerIsNotMinterAdmin(address caller, address minterAdmin);
     error ErrCallerIsNotNftOwner(address caller, address owner);
-    error ErrStatusIsTheSame(uint256 tokenId, RwaStatus status);
+    error ErrCallerIsNotTokenFactory(address caller, address tokenFactory);
+    error ErrStatusIsTheSame(uint256 tokenId, AssetStatus status);
     error ErrStatusIsVoided(uint256 tokenId);
-    error ErrTokenIsUntradable(uint256 tokenId, RwaStatus status);
+    error ErrTokenIsUntradable(uint256 tokenId, AssetStatus status);
+    error ErrRWATokenIsDeployed(uint256 tokenId, address rwaAddress);
 
     constructor(
         address owner,
         address notaryAdmin,
-        address minterAdmin
+        address minterAdmin,
+        address worldesRwaTokenFactory
     ) 
       ERC721("Worldes Property Rights", "WPR")
     {
@@ -50,6 +57,7 @@ contract WorldesRWA is
         _transferOwnership(owner);
         _NOTRAY_ADMIN_ = notaryAdmin;
         _MINTER_ADMIN_ = minterAdmin;
+        _WORLDES_RWA_TOKEN_FACTORY_ = worldesRwaTokenFactory;
     }
 
     modifier onlyNotray() {
@@ -73,6 +81,13 @@ contract WorldesRWA is
         _;
     }
 
+    modifier onlyTokenFactory() {
+        if (_msgSender() != _WORLDES_RWA_TOKEN_FACTORY_) {
+            revert ErrCallerIsNotTokenFactory(_msgSender(), _WORLDES_RWA_TOKEN_FACTORY_);
+        }
+        _;
+    }
+
     function setNotaryAdmin(address notaryAdmin) external onlyOwner {
         if (notaryAdmin == address(0)) {
             revert ErrZeroAddress();
@@ -87,17 +102,36 @@ contract WorldesRWA is
         _MINTER_ADMIN_ = minterAdmin;
     }
 
-    function setRwaStatus(uint256 tokenId, RwaStatus status) external onlyNotray {
-        if (status == _RWA_STATUS_BY_TOKEN_[tokenId]) {
+    function setRwaStatus(uint256 tokenId, AssetStatus status) external onlyNotray {
+        if (status == _ASSET_STATUS_BY_TOKEN_ID_[tokenId]) {
             revert ErrStatusIsTheSame(tokenId, status);
         }
-        if (_RWA_STATUS_BY_TOKEN_[tokenId] == RwaStatus.Voided) {
+        if (_ASSET_STATUS_BY_TOKEN_ID_[tokenId] == AssetStatus.Voided) {
             revert ErrStatusIsVoided(tokenId);
         }
-        _RWA_STATUS_BY_TOKEN_[tokenId] = status;
+        _ASSET_STATUS_BY_TOKEN_ID_[tokenId] = status;
+    }
+
+    function beforeDeployRWAToken(uint256 tokenId, address from) external view {
+        if (from != ownerOf(tokenId)) {
+            revert ErrCallerIsNotNftOwner(from, ownerOf(tokenId));
+        }
+
+        if (_TOKEN_ID_TO_RWA_ADDRESS_[tokenId] != address(0)) {
+            revert ErrRWATokenIsDeployed(tokenId, _TOKEN_ID_TO_RWA_ADDRESS_[tokenId]);
+        }
+    }
+
+    function afterDeployRWAToken(uint256 tokenId, address rwaToken) external onlyTokenFactory {
+        _TOKEN_ID_TO_RWA_ADDRESS_[tokenId] = address(rwaToken);
+        _RWA_ADDRESS_TO_TOKEN_ID_[address(rwaToken)] = tokenId;
+        _ASSET_STATUS_BY_TOKEN_ID_[tokenId] = AssetStatus.Untradable;
     }
 
     function setTokenURI(uint256 tokenId, string memory uri) external onlyTokenOwner(tokenId) {
+        if (_ASSET_STATUS_BY_TOKEN_ID_[tokenId] == AssetStatus.Voided) {
+            revert ErrStatusIsVoided(tokenId);
+        }
         _setTokenURI(tokenId, uri);
     }
 
@@ -105,6 +139,7 @@ contract WorldesRWA is
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
+        _ASSET_STATUS_BY_TOKEN_ID_[tokenId] = AssetStatus.Tradable;
     }
 
     // The following functions are overrides required by Solidity.
@@ -142,8 +177,8 @@ contract WorldesRWA is
     ) internal override(ERC721, ERC721Enumerable) {
         super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
 
-        if (_RWA_STATUS_BY_TOKEN_[firstTokenId] != RwaStatus.Tradable) {
-            revert ErrTokenIsUntradable(firstTokenId, _RWA_STATUS_BY_TOKEN_[firstTokenId]);
+        if (_ASSET_STATUS_BY_TOKEN_ID_[firstTokenId] != AssetStatus.Tradable) {
+            revert ErrTokenIsUntradable(firstTokenId, _ASSET_STATUS_BY_TOKEN_ID_[firstTokenId]);
         }
     }
 }

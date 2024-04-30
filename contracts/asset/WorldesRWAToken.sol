@@ -7,7 +7,7 @@ import {Pausable} from  "@openzeppelin/contracts/security/Pausable.sol";
 import {ERC20} from  "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {ERC20Permit} from  "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 
-contract WorldesToken is 
+contract WorldesRWAToken is 
     Ownable, 
     Pausable,
     ERC20Permit
@@ -50,6 +50,14 @@ contract WorldesToken is
         _decimals = intitialDecimals;
         _LIST_ADMIN_ = listAdmin;
         _mint(to, initialSupply * 10 ** intitialDecimals);
+    }
+
+    function enableWhiteList() public onlyOwner {
+        _WHITE_LISTED_ENABLE_ = true;
+    }
+
+    function disableWhiteList() public OnlyOwner {
+        _WHITE_LISTED_ENABLE_ = false;
     }
 
     function addWhiteList (address newAddr) public onlyListAdmin {

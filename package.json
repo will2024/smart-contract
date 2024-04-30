@@ -4,7 +4,7 @@
     "auth": "graph auth --studio 5ec5018e3ab636f2737b702bdcbf917d",
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --studio worldes-sopelia",
+    "deploy": "graph deploy --studio worldes-sopelia"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.0",
