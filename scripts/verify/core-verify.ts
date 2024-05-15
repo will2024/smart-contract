@@ -20,8 +20,6 @@ const func = async function () {
   const WorldesDvmProxy = await deployments.get("WorldesDvmProxy");
   const WorldesDspProxy = await deployments.get("WorldesDspProxy");
   const WorldesRouterHelper = await deployments.get("WorldesRouterHelper");
-  const WorldesLimitOrder = await deployments.get("WorldesLimitOrder");
-  const WorldesLimitOrderBot = await deployments.get("WorldesLimitOrderBot");
 
 
   // verify CloneFactory
@@ -157,6 +155,10 @@ const func = async function () {
     WorldesRouterHelperParams
   );
 
+  // ——————————————verify limit order————————————————————
+  const WorldesLimitOrder = await deployments.get("WorldesLimitOrder");
+  const WorldesLimitOrderBot = await deployments.get("WorldesLimitOrderBot");
+
   // verify WorldesLimitOrder
   console.log("\n- Verifying WorldesLimitOrder...\n");
   const WorldesLimitOrderParams :string[] = [
@@ -184,6 +186,46 @@ const func = async function () {
     WorldesLimitOrderBot.address,
     "contracts/limitOrder/WorldesLimitOrderBot.sol:WorldesLimitOrderBot",
     WorldesLimitOrderBotParams
+  );
+
+  // ——————————————verify mine————————————————————
+  const ERC20Mine = await deployments.get("ERC20Mine");
+  const WorldesMineRegistry = await deployments.get("WorldesMineRegistry");
+  const WorldesMineProxy = await deployments.get("WorldesMineProxy");
+
+  //verify ERC20Mine template
+  console.log("\n- Verifying ERC20Mine template...\n");
+  const ERC20MineParams :string[] = [];
+  await verifyContract(
+    "ERC20Mine",
+    ERC20Mine.address,
+    "contracts/mine/ERC20Mine.sol:ERC20Mine",
+    ERC20MineParams
+  );
+
+  //verify WorldesMineRegistry
+  console.log("\n- Verifying WorldesMineRegistry...\n");
+  const WorldesMineRegistryParams :string[] = [];
+  await verifyContract(
+    "WorldesMineRegistry",
+    WorldesMineRegistry.address,
+    "contracts/mine/WorldesMineRegistry.sol:WorldesMineRegistry",
+    WorldesMineRegistryParams
+  );
+
+  //verify WorldesMineProxy
+  console.log("\n- Verifying WorldesMineProxy...\n");
+  const WorldesMineProxyParams :string[] = [
+    CloneFactory.address,
+    ERC20Mine.address,
+    WorldesApproveProxy.address,
+    WorldesMineRegistry.address,
+  ];
+  await verifyContract(
+    "WorldesMineProxy",
+    WorldesMineProxy.address,
+    "contracts/proxy/WorldesMineProxy.sol:WorldesMineProxy",
+    WorldesMineProxyParams
   );
 
 };

@@ -75,3 +75,4 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
 //
 export default deployFunction;
 deployFunction.tags = ["limit-order"];
+deployFunction.dependencies = ["libs", "dvm"];  

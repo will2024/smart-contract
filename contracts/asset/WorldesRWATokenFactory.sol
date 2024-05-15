@@ -12,11 +12,13 @@ interface IWorldesPropertyRights {
     function afterDeployRWAToken(uint256 tokenId, WorldesRWAToken token) external;
 }
 
-contract WorldesTokenFactory is Ownable {
+contract WorldesRWATokenFactory is Ownable {
     event TokenDeployed(
-        address indexed propertyRights,
+        address propertyRights,
         uint256 indexed rwaId, 
-        address indexed tokenAddress, 
+        address indexed tokenAddress,
+        address indexed to,
+        address sender,
         string name, 
         string symbol, 
         uint256 intialSupply,
@@ -47,6 +49,16 @@ contract WorldesTokenFactory is Ownable {
 
         IWorldesPropertyRights(propertyRights).afterDeployRWAToken(nftId, token);
         
-        emit TokenDeployed(propertyRights, nftId, address(token), name, symbol, intialSupply, decimals);
+        emit TokenDeployed(
+            propertyRights, 
+            nftId, 
+            address(token), 
+            to, 
+            msg.sender, 
+            name, 
+            symbol, 
+            intialSupply, 
+            decimals
+        );
     }
 }

@@ -18,16 +18,8 @@ contract WorldesRWAToken is
     mapping (address => bool) public isWhiteListed;
     mapping (address => bool) public isBlackListed;
 
-    error ErrZeroAddress();
-    error ErrCallerIsNotListAdmin(address caller, address listAdmin);
-    error ErrTransferWhilePaused(address from, address to, uint256 amount);
-    error ErrTransferNotWhiteListed(address from, address to, uint256 amount);
-    error ErrTransferBlackListed(address from, address to, uint256 amount);
-
     modifier onlyListAdmin() {
-        if (_msgSender() != _LIST_ADMIN_) {
-            revert ErrCallerIsNotListAdmin(_msgSender(), _LIST_ADMIN_);
-        }
+        require(_msgSender() == _LIST_ADMIN_, "WorldesRWAToken: caller is not list admin");
         _;
     }
 
@@ -43,9 +35,7 @@ contract WorldesRWAToken is
         ERC20(name, symbol)
         ERC20Permit("WESToken")
     {
-        if (owner == address(0) || listAdmin == address(0) || to == address(0)) {
-            revert ErrZeroAddress();
-        }
+        require(owner != address(0) && listAdmin != address(0) && to != address(0), "WorldesRWAToken: error zero address");
         _transferOwnership(owner);
         _decimals = intitialDecimals;
         _LIST_ADMIN_ = listAdmin;
@@ -56,7 +46,7 @@ contract WorldesRWAToken is
         _WHITE_LISTED_ENABLE_ = true;
     }
 
-    function disableWhiteList() public OnlyOwner {
+    function disableWhiteList() public onlyOwner {
         _WHITE_LISTED_ENABLE_ = false;
     }
 
@@ -77,9 +67,7 @@ contract WorldesRWAToken is
     }
 
     function setListAdmin(address listAdmin) external onlyOwner {
-        if (listAdmin == address(0)) {
-            revert ErrZeroAddress();
-        }
+        require(listAdmin != address(0), "WorldesRWAToken: error zero address");
         _LIST_ADMIN_ = listAdmin;
     }
 
@@ -92,9 +80,6 @@ contract WorldesRWAToken is
     }
 
     function mint(address to, uint256 amount) external onlyOwner {
-        if (to == address(0)) {
-            revert ErrZeroAddress();
-        }
         _mint(to, amount);
     }
 
@@ -102,20 +87,12 @@ contract WorldesRWAToken is
         address from,
         address to,
         uint256 amount
-    ) internal override(ERC20) {
-
-        if (paused()) {
-            revert ErrTransferWhilePaused(from, to, amount);
-        }
-
+    ) internal override(ERC20) whenNotPaused() {
+        
         if (_WHITE_LISTED_ENABLE_) {
-            if (!isWhiteListed[from] || !isWhiteListed[to]) {
-                revert ErrTransferNotWhiteListed(from, to, amount);
-            }
+            require(isWhiteListed[from] && isWhiteListed[to], "WorldesRWAToken: white list condition not met");
         } else {
-            if (isBlackListed[from] || isBlackListed[to]) {
-                revert ErrTransferBlackListed(from, to, amount);
-            }
+            require(!isBlackListed[from] && !isBlackListed[to], "WorldesRWAToken: black list condition not met");
         }
 
         super._afterTokenTransfer(from, to, amount);
