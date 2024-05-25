@@ -73,7 +73,7 @@ contract WorldesPropertyRights is
         _ASSET_STATUS_BY_TOKEN_ID_[tokenId] = status;
     }
 
-    function beforeDeployRWAToken(uint256 tokenId, address from) external view onlyTokenFactory{
+    function beforeDeployRWAToken(uint256 tokenId, address from) external onlyTokenFactory{
         require(from == ownerOf(tokenId), "WPR: from is not the owner of this token.");
         require(_TOKEN_ID_TO_RWA_ADDRESS_[tokenId] == address(0), "WPR: RWA is deployed.");
     }

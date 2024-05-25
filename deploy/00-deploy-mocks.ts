@@ -48,7 +48,7 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
     USDT: { reserveDecimals: 9 },
     USDE: { reserveDecimals: 9 },
     MOCKA: { reserveDecimals: 18 },
-    MOCKB: { reserveDecimals: 18 },
+    MOCKB: { reserveDecimals: 18 }, 
     MOCKC: { reserveDecimals: 18 },
     MOCKD: { reserveDecimals: 18 },
     MOCKE: { reserveDecimals: 12 },

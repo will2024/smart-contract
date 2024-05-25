@@ -1,4 +1,4 @@
-specVersion: 0.0.1
+specVersion: 0.0.4
 description: worldes_dex.io
 schema:
   file: ./worldes_dex.graphql
@@ -12,7 +12,7 @@ dataSources:
       startBlock: 5746700
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/smartRoute.ts
       entities:
@@ -33,7 +33,7 @@ dataSources:
       startBlock: 5746700
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/poolFactory.ts
       entities:
@@ -60,7 +60,7 @@ dataSources:
       startBlock: 5746700
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/poolFactory.ts
       entities:
@@ -80,7 +80,64 @@ dataSources:
           handler: handleNewDSP
         - event: RemoveDSP(address)
           handler: handleRemoveDSP
-
+  - kind: ethereum/contract
+    name: WorldesMineProxy
+    network: sepolia
+    source:
+      address: '0x99d69565EdA438E3ebAA0627A407968ABD0f755b'
+      abi: WorldesMineProxy
+      startBlock: 7462578
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mine/mineProxy.ts
+      entities:
+        - MinePool
+      abis:
+        - name: WorldesMineProxy
+          file: ./abis/WorldesMineProxy.json
+        - name: ERC20Mine
+          file: ./abis/ERC20Mine.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        - event: CreateMine(address,address,uint256)
+          handler: handleV2CreateMine
+  - kind: ethereum/contract
+    name: WorldesMineRegistry
+    network: sepolia
+    source:
+      address: '0x4632e6EBd4a01eBF54739A9D71a62CEdb29E9183'
+      abi: WorldesMineRegistry
+      startBlock: 7462578
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mine/registry.ts
+      entities:
+        - MinePool
+      abis:
+        - name: WorldesMineProxy
+          file: ./abis/WorldesMineProxy.json
+        - name: WorldesMineRegistry
+          file: ./abis/WorldesMineRegistry.json
+        - name: ERC20Mine
+          file: ./abis/ERC20Mine.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        - event: NewMine(address,address,bool)
+          handler: handleNewMine
 templates:
   - kind: ethereum/contract
     name: DVM
@@ -89,7 +146,7 @@ templates:
       abi: DVM
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/pool.ts
       entities:
@@ -119,7 +176,7 @@ templates:
       abi: DSP
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/pool.ts
       entities:
@@ -146,4 +203,29 @@ templates:
           handler: handleSellShares
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-
+  - kind: ethereum/contract
+    name: ERC20Mine
+    network: goerli
+    source:
+      abi: ERC20Mine
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/mine/mine.ts
+      entities:
+        - MinePool
+      abis:
+        - name: ERC20Mine
+          file: ./abis/ERC20Mine.json
+      eventHandlers:
+        - event: Deposit(indexed address,uint256)
+          handler: handleDeposit
+        - event: Withdraw(indexed address,uint256)
+          handler: handleWithdraw
+        - event: NewRewardToken(indexed uint256,address)
+          handler: handleNewRewardToken
+        - event: UpdateEndBlock(indexed uint256,uint256)
+          handler: handleUpdateEndBlock
+        - event: UpdateReward(indexed uint256,uint256)
+          handler: handleUpdateReward
