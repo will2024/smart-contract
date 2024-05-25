@@ -25,7 +25,7 @@ contract WorldesPropertyRights is
     //rwa_erc20_Address => asset_tokenId
     mapping(address => uint256) public _RWA_ADDRESS_TO_TOKEN_ID_;
     mapping (address => bool) public _MINTER_AMIN_LIST_;
-    mapping (uint256 => address) public _NOTRAY_AMDIN_MAPPING_;
+    mapping (uint256 => address) public _NOTARY_AMDIN_MAPPING_;
 
     address public _WORLDES_RWA_TOKEN_FACTORY_;
 
@@ -39,8 +39,8 @@ contract WorldesPropertyRights is
         _WORLDES_RWA_TOKEN_FACTORY_ = worldesRwaTokenFactory;
     }
 
-    modifier onlyNotray(uint256 tokenId) {
-        require(_NOTRAY_AMDIN_MAPPING_[tokenId] == _msgSender(), "WPR: sender is not notray admin");
+    modifier onlyNotary(uint256 tokenId) {
+        require(_NOTARY_AMDIN_MAPPING_[tokenId] == _msgSender(), "WPR: sender is not notary admin");
         _;
     }
 
@@ -67,7 +67,7 @@ contract WorldesPropertyRights is
         _MINTER_AMIN_LIST_[newAddr] = false;
     }
 
-    function setRwaStatus(uint256 tokenId, AssetStatus status) external onlyNotray(tokenId) {
+    function setRwaStatus(uint256 tokenId, AssetStatus status) external onlyNotary(tokenId) {
         require(status != _ASSET_STATUS_BY_TOKEN_ID_[tokenId], "WPR: status is been setted.");
         require(_ASSET_STATUS_BY_TOKEN_ID_[tokenId] != AssetStatus.Voided, "WPR: asset status is voided.");
         _ASSET_STATUS_BY_TOKEN_ID_[tokenId] = status;
@@ -89,12 +89,12 @@ contract WorldesPropertyRights is
         _setTokenURI(tokenId, uri);
     }
 
-    function safeMint(address to, address notray, string memory uri) external onlyMinter {
+    function safeMint(address to, address notary, string memory uri) external onlyMinter {
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
         _ASSET_STATUS_BY_TOKEN_ID_[tokenId] = AssetStatus.Tradable;
-        _NOTRAY_AMDIN_MAPPING_[tokenId] = notray;
+        _NOTARY_AMDIN_MAPPING_[tokenId] = notary;
     }
 
     // The following functions are overrides required by Solidity.
