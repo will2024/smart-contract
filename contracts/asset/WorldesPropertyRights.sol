@@ -130,7 +130,7 @@ contract WorldesPropertyRights is
         uint256 firstTokenId,
         uint256 batchSize
     ) internal override(ERC721, ERC721Enumerable) {
-        super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
         require(_ASSET_STATUS_BY_TOKEN_ID_[firstTokenId] == AssetStatus.Tradable, "WPR: this token is untradable.");
+        super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
 }
