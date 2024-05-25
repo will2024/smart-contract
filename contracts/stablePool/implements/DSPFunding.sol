@@ -50,6 +50,7 @@ contract DSPFunding is DSPVault {
             _BASE_TARGET_ = uint112(shares);
             _QUOTE_TARGET_ = uint112(DecimalMath.mulFloor(shares, _I_));
             require(shares > 2001, "MINT_AMOUNT_NOT_ENOUGH");
+            require(_QUOTE_TARGET_ > 0, "QUOTE_TARGET_IS_ZERO");
             _mint(address(0), 1001);
             shares -= 1001;
         } else if (baseReserve > 0 && quoteReserve > 0) {
