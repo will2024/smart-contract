@@ -23,6 +23,14 @@ contract WorldesRWAToken is
         _;
     }
 
+    event SetListAdmin(address indexed sender, address indexed newAddr);
+
+    event SetWhiteListEnable(address indexed sender, bool enable);
+
+    event SetWhiteList(address indexed sender, address indexed newAddr, bool enable);
+
+    event SetBlackList(address indexed sender, address indexed newAddr, bool enable);
+
     constructor(
         address owner,
         address listAdmin,
@@ -44,31 +52,45 @@ contract WorldesRWAToken is
 
     function enableWhiteList() public onlyOwner {
         _WHITE_LISTED_ENABLE_ = true;
+
+        emit SetWhiteListEnable(_msgSender(), true);
     }
 
     function disableWhiteList() public onlyOwner {
         _WHITE_LISTED_ENABLE_ = false;
+
+        emit SetWhiteListEnable(_msgSender(), false);
     }
 
     function addWhiteList (address newAddr) public onlyListAdmin {
         isWhiteListed[newAddr] = true;
+
+        emit SetWhiteList(_msgSender(), newAddr, true);
     }
 
     function removeWhiteList (address newAddr) public onlyListAdmin {
         isWhiteListed[newAddr] = false;
+
+        emit SetWhiteList(_msgSender(), newAddr, false);
     }
 
     function addBlackList (address newAddr) public onlyListAdmin {
         isBlackListed[newAddr] = true;
+
+        emit SetBlackList(_msgSender(), newAddr, true);
     }
 
     function removeBlackList (address newAddr) public onlyListAdmin {
         isBlackListed[newAddr] = false;
+
+        emit SetBlackList(_msgSender(), newAddr, false);
     }
 
     function setListAdmin(address listAdmin) external onlyOwner {
         require(listAdmin != address(0), "WorldesRWAToken: error zero address");
         _LIST_ADMIN_ = listAdmin;
+
+        emit SetListAdmin(_msgSender(), listAdmin);
     }
 
     function pause() external onlyOwner {

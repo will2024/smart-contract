@@ -29,6 +29,14 @@ contract WorldesPropertyRights is
 
     address public _WORLDES_RWA_TOKEN_FACTORY_;
 
+    // ============ Events ============
+
+    event AddMinter(address indexed sender, address indexed newAddr);
+    event RemoveMinter(address indexed sender, address indexed newAddr);
+    event SetRwaStatus(address indexed sender, uint256 indexed tokenId, AssetStatus status);
+    event ClearRwaRelation(address indexed sender, uint256 indexed tokenId, address rwaToken);
+    event SafeMint(address indexed sender, address indexed to, uint256 indexed tokenId, address notary, string uri);
+
     constructor(
         address owner,
         address worldesRwaTokenFactory
@@ -61,16 +69,29 @@ contract WorldesPropertyRights is
 
     function addMinter (address newAddr) public onlyOwner {
         _MINTER_AMIN_LIST_[newAddr] = true;
+
+        emit AddMinter(_msgSender(), newAddr);
     }
 
     function removeMinter (address newAddr) public onlyOwner {
         _MINTER_AMIN_LIST_[newAddr] = false;
+
+        emit RemoveMinter(_msgSender(), newAddr);
     }
 
     function setRwaStatus(uint256 tokenId, AssetStatus status) external onlyNotary(tokenId) {
         require(status != _ASSET_STATUS_BY_TOKEN_ID_[tokenId], "WPR: status is been setted.");
         require(_ASSET_STATUS_BY_TOKEN_ID_[tokenId] != AssetStatus.Voided, "WPR: asset status is voided.");
         _ASSET_STATUS_BY_TOKEN_ID_[tokenId] = status;
+
+        emit SetRwaStatus(_msgSender(), tokenId, status);
+    }
+
+    function clearRwaRelation(uint256 tokenId) external onlyNotary(tokenId) {
+        address rwaToken = _TOKEN_ID_TO_RWA_ADDRESS_[tokenId];
+        _TOKEN_ID_TO_RWA_ADDRESS_[tokenId] == address(0);
+
+        emit ClearRwaRelation(_msgSender(), tokenId, rwaToken);
     }
 
     function beforeDeployRWAToken(uint256 tokenId, address from) external onlyTokenFactory{
@@ -95,6 +116,8 @@ contract WorldesPropertyRights is
         _setTokenURI(tokenId, uri);
         _ASSET_STATUS_BY_TOKEN_ID_[tokenId] = AssetStatus.Tradable;
         _NOTARY_AMDIN_MAPPING_[tokenId] = notary;
+
+        emit SafeMint(_msgSender(), to, tokenId, notary, uri);
     }
 
     // The following functions are overrides required by Solidity.
