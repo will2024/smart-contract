@@ -7,6 +7,10 @@ import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {ERC721Enumerable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import {ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
+interface IWorldesRWAToken {
+    function setMaxSupply(uint256 increaseSupply) external;
+}
+
 contract WorldesPropertyRights is 
     Ownable,
     ERC721Enumerable, 
@@ -35,6 +39,7 @@ contract WorldesPropertyRights is
     event RemoveMinter(address indexed sender, address indexed newAddr);
     event SetRwaStatus(address indexed sender, uint256 indexed tokenId, AssetStatus status);
     event ClearRwaRelation(address indexed sender, uint256 indexed tokenId, address rwaToken);
+    event IncreaseMaxSupply(uint256 indexed tokenId, uint256 increaseSupply);
     event SafeMint(address indexed sender, address indexed to, uint256 indexed tokenId, address notary, string uri);
 
     constructor(
@@ -92,6 +97,12 @@ contract WorldesPropertyRights is
         _TOKEN_ID_TO_RWA_ADDRESS_[tokenId] == address(0);
 
         emit ClearRwaRelation(_msgSender(), tokenId, rwaToken);
+    }
+
+    function increaseMaxSupply(uint256 tokenId, uint256 increaseSupply) external onlyNotary(tokenId) {
+        IWorldesRWAToken(_TOKEN_ID_TO_RWA_ADDRESS_[tokenId]).setMaxSupply(increaseSupply);
+
+        emit IncreaseMaxSupply(tokenId, increaseSupply);
     }
 
     function beforeDeployRWAToken(uint256 tokenId, address from) external onlyTokenFactory{
