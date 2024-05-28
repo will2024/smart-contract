@@ -12,8 +12,10 @@ contract WorldesRWAToken is
     Pausable,
     ERC20Permit
 {
+    uint256 public _MAX_SUPPLY_;
     uint8 private _decimals = 18;
     address public _LIST_ADMIN_;
+    address public _WPR_ADDRESS_;
     bool public _WHITE_LISTED_ENABLE_ = false;
     mapping (address => bool) public isWhiteListed;
     mapping (address => bool) public isBlackListed;
@@ -32,6 +34,7 @@ contract WorldesRWAToken is
     event SetBlackList(address indexed sender, address indexed newAddr, bool enable);
 
     constructor(
+        address propertyRights,
         address owner,
         address listAdmin,
         address to,
@@ -47,7 +50,14 @@ contract WorldesRWAToken is
         _transferOwnership(owner);
         _decimals = intitialDecimals;
         _LIST_ADMIN_ = listAdmin;
+        _WPR_ADDRESS_ = propertyRights;
+        _MAX_SUPPLY_ = initialSupply * 10 ** intitialDecimals;
         _mint(to, initialSupply * 10 ** intitialDecimals);
+    }
+
+    function setMaxSupply(uint256 increaseSupply) external {
+        require(_msgSender() == _WPR_ADDRESS_, "WorldesRWAToken: caller is not property rights contract");
+        _MAX_SUPPLY_ = _MAX_SUPPLY_ + increaseSupply;
     }
 
     function enableWhiteList() public onlyOwner {
@@ -102,6 +112,7 @@ contract WorldesRWAToken is
     }
 
     function mint(address to, uint256 amount) external onlyOwner {
+        require(totalSupply() + amount <= _MAX_SUPPLY_, "WorldesRWAToken: mint amount exceeds max supply");
         _mint(to, amount);
     }
 

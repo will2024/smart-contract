@@ -45,7 +45,7 @@ contract WorldesRWATokenFactory is Ownable {
 
         IWorldesPropertyRights(propertyRights).beforeDeployRWAToken(nftId, msg.sender);
 
-        WorldesRWAToken token = new WorldesRWAToken(owner, listAdmin, to, name, symbol, intialSupply, decimals);
+        WorldesRWAToken token = new WorldesRWAToken(propertyRights, owner, listAdmin, to, name, symbol, intialSupply, decimals);
 
         IWorldesPropertyRights(propertyRights).afterDeployRWAToken(nftId, token);
         
