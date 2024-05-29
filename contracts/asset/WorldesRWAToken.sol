@@ -44,7 +44,7 @@ contract WorldesRWAToken is
         uint8 intitialDecimals
     )
         ERC20(name, symbol)
-        ERC20Permit("WESToken")
+        ERC20Permit("RWAToken")
     {
         require(owner != address(0) && listAdmin != address(0) && to != address(0), "WorldesRWAToken: error zero address");
         _transferOwnership(owner);
