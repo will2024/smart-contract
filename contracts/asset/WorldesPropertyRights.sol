@@ -94,7 +94,8 @@ contract WorldesPropertyRights is
 
     function clearRwaRelation(uint256 tokenId) external onlyNotary(tokenId) {
         address rwaToken = _TOKEN_ID_TO_RWA_ADDRESS_[tokenId];
-        _TOKEN_ID_TO_RWA_ADDRESS_[tokenId] == address(0);
+        delete _RWA_ADDRESS_TO_TOKEN_ID_[rwaToken];
+        delete _TOKEN_ID_TO_RWA_ADDRESS_[tokenId];
 
         emit ClearRwaRelation(_msgSender(), tokenId, rwaToken);
     }
@@ -138,6 +139,11 @@ contract WorldesPropertyRights is
         override(ERC721, ERC721URIStorage) 
     {
         super._burn(tokenId);
+
+        delete _ASSET_STATUS_BY_TOKEN_ID_[tokenId];
+        delete _RWA_ADDRESS_TO_TOKEN_ID_[_TOKEN_ID_TO_RWA_ADDRESS_[tokenId]];
+        delete _TOKEN_ID_TO_RWA_ADDRESS_[tokenId];
+        delete _NOTARY_AMDIN_MAPPING_[tokenId];
     }
 
     function tokenURI(uint256 tokenId)

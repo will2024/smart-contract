@@ -11,7 +11,7 @@ import {IFaucet} from './IFaucet.sol';
  */
 contract Faucet is IFaucet, Ownable {
   /// @inheritdoc IFaucet
-  uint256 public constant MAX_MINT_AMOUNT = 10000;
+  uint256 public constant MAX_MINT_AMOUNT = 1000000;
 
   // Mapping to control mint of assets (allowed by default)
   mapping(address => bool) internal _nonMintable;
