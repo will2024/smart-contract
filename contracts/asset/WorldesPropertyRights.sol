@@ -139,11 +139,12 @@ contract WorldesPropertyRights is
         string memory declaration_from_accountant,
         string memory declaration_from_market_maker
     ) external onlyMinter {
-        require(declaration_from_exchange != "", "WPR: declaration from exchange is empty.");
-        require(declaration_from_project_party != "", "WPR: declaration from project party is empty.");
-        require(declaration_from_lawyer != "", "WPR: declaration from lawyer is empty.");
-        require(declaration_from_accountant != "", "WPR: declaration from accountant is empty.");
-        require(declaration_from_market_maker != "", "WPR: declaration from market maker is empty.");
+        
+        require(bytes(declaration_from_exchange).length == 0, "WPR: declaration from exchange is empty.");
+        require(bytes(declaration_from_project_party).length == 0, "WPR: declaration from project party is empty.");
+        require(bytes(declaration_from_lawyer).length == 0, "WPR: declaration from lawyer is empty.");
+        require(bytes(declaration_from_accountant).length == 0, "WPR: declaration from accountant is empty.");
+        require(bytes(declaration_from_market_maker).length == 0, "WPR: declaration from market maker is empty.");
 
         _DECLARATION_FROM_EXCHANGE_ = declaration_from_exchange;
         _DECLARATION_FROM_PROJECT_PARTY_ = declaration_from_project_party;
