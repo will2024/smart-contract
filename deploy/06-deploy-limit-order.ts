@@ -43,7 +43,6 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   await deploy("WorldesLimitOrderBot", {
     contract: "WorldesLimitOrderBot",
     from: deployer,
-    args: [worldesLimitOrder.target],
   }).then((res) => {
     console.log("WorldesLimitOrderBot deployed to: %s, %s", res.address, res.newlyDeployed);
   });

@@ -8,7 +8,7 @@ const func = async function () {
   const { getNamedAccounts, deployments } = hre;
   const { deployer } = await getNamedAccounts();
 
-  let reserveSymbols = ["USDT", "USDE", "MOCKA", "MOCKB", "MOCKC", "MOCKD", "MOCKE", "MOCKF"];
+  let reserveSymbols = ["USDT", "USDE", "MOCKA", "MOCKB", "MOCKC", "MOCKD", "MOCKE", "MOCKF", "WES"]
   let reservesConfig = {
     USDT: { reserveDecimals: 9 },
     USDE: { reserveDecimals: 9 },
@@ -18,6 +18,7 @@ const func = async function () {
     MOCKD: { reserveDecimals: 18 },
     MOCKE: { reserveDecimals: 12 },
     MOCKF: { reserveDecimals: 9 },
+    WES: { reserveDecimals: 18 },
   } as SymbolMap<decimalsType>;
 
   const Faucet = await deployments.get("Faucet");

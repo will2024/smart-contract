@@ -1,26 +1,26 @@
 specVersion: 0.0.4
 description: worldes_dex.io
 schema:
-  file: ./worldes_dex.graphql
+  file: ./graph/worldes_dex.graphql
 dataSources:
   - kind: ethereum/contract
     name: WorldesDvmProxy
     network: sepolia
     source:
-      address: '0xB25f77bB079c240eBE2872D19BBa2154C6F5fBC0'
+      address: '0xA4cB3d7B9C75F77467E6933dF5287Ad817Df93A9'
       abi: WorldesDvmProxy
-      startBlock: 5746700
+      startBlock: 5981900
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/mappings/smartRoute.ts
+      file: ./graph/src/mappings/smartRoute.ts
       entities:
         - Pair
         - Token
       abis:
         - name: WorldesDvmProxy
-          file: ./abis/WorldesDvmProxy.json
+          file: ./graph/abis/WorldesDvmProxy.json
       eventHandlers:
         - event: OrderHistory(address,address,address,uint256,uint256)
           handler: handleOrderHistory
@@ -28,24 +28,26 @@ dataSources:
     name: DVMFactory
     network: sepolia
     source:
-      address: '0x4086136aAaF28491439081579C5eE4c77A237B8f'
+      address: '0x88da362EF0F5C062ab544AB6528b726f9Dc8d2EB'
       abi: DVMFactory
-      startBlock: 5746700
+      startBlock: 5981900
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/mappings/poolFactory.ts
+      file: ./graph/src/mappings/poolFactory.ts
       entities:
         - Pair
         - Token
       abis:
         - name: DVMFactory
-          file: ./abis/DVMFactory.json
+          file: ./graph/abis/DVMFactory.json
+        - name: ERC20
+          file: ./graph/abis/ERC20.json
         - name: DVM
-          file: ./abis/DVM.json
+          file: ./graph/abis/DVM.json
         - name: FeeRateModel
-          file: ./abis/FeeRateModel.json
+          file: ./graph/abis/FeeRateModel.json
       eventHandlers:
         - event: NewDVM(address,address,address,address)
           handler: handleNewDVM
@@ -55,26 +57,26 @@ dataSources:
     name: DSPFactory
     network: sepolia
     source:
-      address: '0x383DEc4E446080Fb453b88bc4268DD800a3b87aB'
+      address: '0x2737CE8Cc40fF185D6c39C99139291d677c60934'
       abi: DSPFactory
-      startBlock: 5746700
+      startBlock: 5981900
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/mappings/poolFactory.ts
+      file: ./graph/src/mappings/poolFactory.ts
       entities:
         - Pair
         - Token
       abis:
         - name: DSPFactory
-          file: ./abis/DSPFactory.json
+          file: ./graph/abis/DSPFactory.json
         - name: ERC20
-          file: ./abis/ERC20.json
+          file: ./graph/abis/ERC20.json
         - name: DSP
-          file: ./abis/DSP.json
+          file: ./graph/abis/DSP.json
         - name: FeeRateModel
-          file: ./abis/FeeRateModel.json
+          file: ./graph/abis/FeeRateModel.json
       eventHandlers:
         - event: NewDSP(address,address,address,address)
           handler: handleNewDSP
@@ -84,27 +86,27 @@ dataSources:
     name: WorldesMineProxy
     network: sepolia
     source:
-      address: '0x99d69565EdA438E3ebAA0627A407968ABD0f755b'
+      address: '0x16a1903f0bd86ea419c25c79A4F1dbf37B129F7d'
       abi: WorldesMineProxy
-      startBlock: 7462578
+      startBlock: 5981900
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/mine/mineProxy.ts
+      file: ./graph/src/mine/mineProxy.ts
       entities:
         - MinePool
       abis:
         - name: WorldesMineProxy
-          file: ./abis/WorldesMineProxy.json
+          file: ./graph/abis/WorldesMineProxy.json
         - name: ERC20Mine
-          file: ./abis/ERC20Mine.json
+          file: ./graph/abis/ERC20Mine.json
         - name: ERC20
-          file: ./abis/ERC20.json
+          file: ./graph/abis/ERC20.json
         - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
+          file: ./graph/abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
+          file: ./graph/abis/ERC20NameBytes.json
       eventHandlers:
         - event: CreateMine(address,address,uint256)
           handler: handleV2CreateMine
@@ -112,29 +114,29 @@ dataSources:
     name: WorldesMineRegistry
     network: sepolia
     source:
-      address: '0x4632e6EBd4a01eBF54739A9D71a62CEdb29E9183'
+      address: '0x5a35807D7f6a39267a5191cd69fCD14CF6901636'
       abi: WorldesMineRegistry
-      startBlock: 7462578
+      startBlock: 5981900
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/mine/registry.ts
+      file: ./graph/src/mine/registry.ts
       entities:
         - MinePool
       abis:
         - name: WorldesMineProxy
-          file: ./abis/WorldesMineProxy.json
+          file: ./graph/abis/WorldesMineProxy.json
         - name: WorldesMineRegistry
-          file: ./abis/WorldesMineRegistry.json
+          file: ./graph/abis/WorldesMineRegistry.json
         - name: ERC20Mine
-          file: ./abis/ERC20Mine.json
+          file: ./graph/abis/ERC20Mine.json
         - name: ERC20
-          file: ./abis/ERC20.json
+          file: ./graph/abis/ERC20.json
         - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
+          file: ./graph/abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
+          file: ./graph/abis/ERC20NameBytes.json
       eventHandlers:
         - event: NewMine(address,address,bool)
           handler: handleNewMine
@@ -148,18 +150,18 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/mappings/pool.ts
+      file: ./graph/src/mappings/pool.ts
       entities:
         - Pair
         - Token
         - WorldesSwap
       abis:
         - name: DVM
-          file: ./abis/DVM.json
+          file: ./graph/abis/DVM.json
         - name: DVMFactory
-          file: ./abis/DVMFactory.json
+          file: ./graph/abis/DVMFactory.json
         - name: FeeRateModel
-          file: ./abis/FeeRateModel.json
+          file: ./graph/abis/FeeRateModel.json
       eventHandlers:
         - event: WorldesSwap(address,address,uint256,uint256,address,address)
           handler: handleWorldesSwap
@@ -178,22 +180,22 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/mappings/pool.ts
+      file: ./graph/src/mappings/pool.ts
       entities:
         - Pair
         - Token
         - WorldesSwap
       abis:
         - name: DVMFactory
-          file: ./abis/DVMFactory.json
+          file: ./graph/abis/DVMFactory.json
         - name: DSPFactory
-          file: ./abis/DSPFactory.json
+          file: ./graph/abis/DSPFactory.json
         - name: DVM
-          file: ./abis/DVM.json
+          file: ./graph/abis/DVM.json
         - name: DSP
-          file: ./abis/DSP.json
+          file: ./graph/abis/DSP.json
         - name: FeeRateModel
-          file: ./abis/FeeRateModel.json
+          file: ./graph/abis/FeeRateModel.json
       eventHandlers:
         - event: WorldesSwap(address,address,uint256,uint256,address,address)
           handler: handleWorldesSwap
@@ -205,19 +207,19 @@ templates:
           handler: handleTransfer
   - kind: ethereum/contract
     name: ERC20Mine
-    network: goerli
+    network: sepolia
     source:
       abi: ERC20Mine
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/mappings/mine/mine.ts
+      file: ./graph/src/mine/mine.ts
       entities:
         - MinePool
       abis:
         - name: ERC20Mine
-          file: ./abis/ERC20Mine.json
+          file: ./graph/abis/ERC20Mine.json
       eventHandlers:
         - event: Deposit(indexed address,uint256)
           handler: handleDeposit

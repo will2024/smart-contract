@@ -1,4 +1,4 @@
-import {ERC20Mine, ERC20Mine__rewardTokenInfosResult} from "../../types/mine/WorldesMineProxy/ERC20Mine"
+import {ERC20Mine, ERC20Mine__rewardTokenInfosResult} from "../../../generated/WorldesMineProxy/ERC20Mine"
 import {Address, BigInt} from "@graphprotocol/graph-ts"
 
 export function getRewardNum(address: Address): BigInt {
