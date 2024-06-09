@@ -1,5 +1,5 @@
-import {MinePool, RewardDetail} from "../../types/mine/schema"
-import {NewMine} from "../../types/mine/DODOMineV3Registry/DODOMineV3Registry"
+import {MinePool, RewardDetail} from "../../../generated/schema"
+import {NewMine} from "../../../generated/WorldesMineRegistry/WorldesMineRegistry"
 
 export function handleNewMine(event: NewMine): void {
     let minePool = MinePool.load(event.params.mine.toHexString());

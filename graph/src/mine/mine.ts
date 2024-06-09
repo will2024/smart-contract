@@ -3,8 +3,8 @@ import {
   Deposit,
   Withdraw,
   NewRewardToken,
-} from "../../types/mine/templates/ERC20Mine/ERC20Mine";
-import { MinePool, RewardDetail, UserStake } from "../../types/mine/schema";
+} from "../../../generated/templates/ERC20Mine/ERC20Mine";
+import { MinePool, RewardDetail, UserStake } from "../../../generated/schema";
 import { getRewardNum, rewardTokenInfos } from "./helper";
 
 export function handleDeposit(event: Deposit): void {

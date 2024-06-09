@@ -22,6 +22,13 @@ contract WorldesPropertyRights is
         Voided
     }
 
+    
+    string public _DECLARATION_FROM_EXCHANGE_;
+    string public _DECLARATION_FROM_PROJECT_PARTY_;
+    string public _DECLARATION_FROM_LAWYER_;
+    string public _DECLARATION_FROM_ACCOUNTANT_;
+    string public _DECLARATION_FROM_MARKET_MAKER_;
+
     uint256 private _nextTokenId = 1;
     mapping(uint256 => AssetStatus) public _ASSET_STATUS_BY_TOKEN_ID_;
     //asset_tokenId => rwa_erc20_Address
@@ -122,7 +129,28 @@ contract WorldesPropertyRights is
         _setTokenURI(tokenId, uri);
     }
 
-    function safeMint(address to, address notary, string memory uri) external onlyMinter {
+    function safeMint(
+        address to,
+        address notary,
+        string memory uri,
+        string memory declaration_from_exchange,
+        string memory declaration_from_project_party,
+        string memory declaration_from_lawyer,
+        string memory declaration_from_accountant,
+        string memory declaration_from_market_maker
+    ) external onlyMinter {
+        require(declaration_from_exchange != "", "WPR: declaration from exchange is empty.");
+        require(declaration_from_project_party != "", "WPR: declaration from project party is empty.");
+        require(declaration_from_lawyer != "", "WPR: declaration from lawyer is empty.");
+        require(declaration_from_accountant != "", "WPR: declaration from accountant is empty.");
+        require(declaration_from_market_maker != "", "WPR: declaration from market maker is empty.");
+
+        _DECLARATION_FROM_EXCHANGE_ = declaration_from_exchange;
+        _DECLARATION_FROM_PROJECT_PARTY_ = declaration_from_project_party;
+        _DECLARATION_FROM_LAWYER_ = declaration_from_lawyer;
+        _DECLARATION_FROM_ACCOUNTANT_ = declaration_from_accountant;
+        _DECLARATION_FROM_MARKET_MAKER_ = declaration_from_market_maker;
+
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);

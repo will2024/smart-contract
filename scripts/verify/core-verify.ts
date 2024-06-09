@@ -161,11 +161,7 @@ const func = async function () {
 
   // verify WorldesLimitOrder
   console.log("\n- Verifying WorldesLimitOrder...\n");
-  const WorldesLimitOrderParams :string[] = [
-    deployer,
-    WorldesApproveProxy.address,
-    deployer,
-  ];
+  const WorldesLimitOrderParams :string[] = [];
   await verifyContract(
     "WorldesLimitOrder",
     WorldesLimitOrder.address,
@@ -175,12 +171,7 @@ const func = async function () {
 
   // verify WorldesLimitOrderBot
   console.log("\n- Verifying WorldesLimitOrderBot...\n");
-  const WorldesLimitOrderBotParams :string[] = [
-    deployer,     //owner
-    WorldesLimitOrder.address,
-    deployer,    //fee reciver
-    WorldesApprove.address
-  ];
+  const WorldesLimitOrderBotParams :string[] = [];
   await verifyContract(
     "WorldesLimitOrderBot",
     WorldesLimitOrderBot.address,
