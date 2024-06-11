@@ -306,10 +306,16 @@ export function handleBuyShares(event: BuyShares): void {
     pmmState.B,
     baseToken.decimals
   ).minus(pair.baseReserve);
+  if (baseAmountChange.equals(ZERO_BD)) {
+    baseAmountChange = pair.baseReserve;
+  };
   let quoteAmountChange = convertTokenToDecimal(
     pmmState.Q,
     quoteToken.decimals
   ).minus(pair.quoteReserve);
+  if (quoteAmountChange.equals(ZERO_BD)) {
+    quoteAmountChange = pair.quoteReserve;
+  };
 
   let lpToken = createLpToken(event.address, pair as Pair);
 
@@ -433,6 +439,15 @@ export function handleSellShares(event: SellShares): void {
   }
   createPairDetail(pair, pmmState, event.block.timestamp);
 
+  let baseAmountChange = convertTokenToDecimal(
+    pmmState.B,
+    baseToken.decimals
+  ).minus(pair.baseReserve);
+  let quoteAmountChange = convertTokenToDecimal(
+    pmmState.Q,
+    quoteToken.decimals
+  ).minus(pair.quoteReserve);
+
   let lpToken = createLpToken(event.address, pair as Pair);
 
   let dealedSharesAmount = convertTokenToDecimal(
@@ -500,6 +515,8 @@ export function handleSellShares(event: SellShares): void {
       lpToken.totalSupply,
       lpToken.decimals
     );
+    liquidityHistory.baseAmountChange = baseAmountChange;
+    liquidityHistory.quoteAmountChange = quoteAmountChange;
   }
 
   //更新时间戳

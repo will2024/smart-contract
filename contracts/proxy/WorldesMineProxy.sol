@@ -9,8 +9,8 @@ pragma experimental ABIEncoderV2;
 
 import {InitializableOwnable} from "../libraries/InitializableOwnable.sol";
 import {IWorldesApproveProxy} from "./WorldesApproveProxy.sol";
-import {IRewardVault} from "../mine/RewardVault.sol";
-import {IWorldesMineRegistry} from "../mine/WorldesMineRegistry.sol";
+import {IRewardVault} from "../mining/RewardVault.sol";
+import {IWorldesMineRegistry} from "../mining/WorldesMineRegistry.sol";
 import {ICloneFactory} from "../libraries/CloneFactory.sol";
 import {SafeMath} from "../libraries/SafeMath.sol";
 

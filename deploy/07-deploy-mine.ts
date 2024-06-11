@@ -26,7 +26,7 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
     contract: "ERC20Mine",
     from: deployer,
   }).then((res) => {
-    console.log("ERC20Mine deployed to: %s, %s", res.address, res.newlyDeployed);
+    console.log("ERC20Mine template deployed to: %s, %s", res.address, res.newlyDeployed);
   });
   const erc20MineTemplate = await getDeployedContractWithDefaultName("ERC20Mine");
 
