@@ -73,7 +73,7 @@ contract WorldesMineProxy is InitializableOwnable {
         uint256[] memory startBlock,
         uint256[] memory endBlock
     ) external returns (address newMine) {
-        require(rewardTokens.length > 0, "REWARD_EMPTY");
+        // require(rewardTokens.length > 0, "REWARD_EMPTY");
         require(rewardTokens.length == rewardPerBlock.length, "REWARD_PARAM_NOT_MATCH");
         require(startBlock.length == rewardPerBlock.length, "REWARD_PARAM_NOT_MATCH");
         require(endBlock.length == rewardPerBlock.length, "REWARD_PARAM_NOT_MATCH");
