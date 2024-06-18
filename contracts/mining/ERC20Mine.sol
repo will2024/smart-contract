@@ -19,16 +19,29 @@ contract ERC20Mine is ReentrancyGuard, BaseMine {
     // ============ Storage ============
 
     address public _TOKEN_;
+    uint256 public _LOCK_DURATION_;
+    uint256 public stakerInfoLength = 0;
+    mapping(uint256 => StakeInfo) public stakerIds;
+    mapping(uint256 => bool) public stakerWithdrawn;
+    mapping(address => StakeInfo[]) public userStakeInfos;
 
-    function init(address owner, address token) external {
+    // ============ Constructor ============
+    struct StakeInfo {
+        address staker;
+        uint256 stakeTime;
+        uint256 stakeAmount;
+    }
+
+    function init(address owner, address token, uint256 lockDuration) external {
         super.initOwner(owner);
         _TOKEN_ = token;
+        _LOCK_DURATION_ = lockDuration;
     }
 
     // ============ Event  ============
 
-    event Deposit(address indexed user, uint256 amount);
-    event Withdraw(address indexed user, uint256 amount);
+    event Deposit(address indexed user, uint256 stakeId, uint256 amount);
+    event Withdraw(address indexed user, uint256 stakeId, uint256 amount);
 
     // ============ Deposit && Withdraw && Exit ============
 
@@ -44,17 +57,37 @@ contract ERC20Mine is ReentrancyGuard, BaseMine {
         _totalSupply = _totalSupply.add(actualStakeAmount);
         _balances[msg.sender] = _balances[msg.sender].add(actualStakeAmount);
 
-        emit Deposit(msg.sender, actualStakeAmount);
+        StakeInfo memory stakeInfo = StakeInfo({
+            staker: msg.sender,
+            stakeTime: block.timestamp,
+            stakeAmount: actualStakeAmount
+        });
+
+        StakeInfo[] storage infos = userStakeInfos[msg.sender];
+        infos.push(stakeInfo);
+        userStakeInfos[msg.sender] = infos;
+
+        stakerInfoLength = stakerInfoLength.add(1);
+
+        stakerWithdrawn[stakerInfoLength] = false;
+        stakerIds[stakerInfoLength] = stakeInfo;
+
+        emit Deposit(msg.sender, stakerInfoLength, actualStakeAmount);
     }
 
-    function withdraw(uint256 amount) external preventReentrant {
-        require(amount > 0, "WorldesMine: CANNOT_WITHDRAW_ZERO");
+    function withdraw(uint256 stakeId) external preventReentrant {
+        StakeInfo memory stakeInfo = stakerIds[stakeId];
+        require(stakeInfo.staker == msg.sender, "WorldesMine: NO_STAKER");
+        require(stakeInfo.stakeTime + _LOCK_DURATION_ < block.timestamp, "WorldesMine: LOCK_TIME_NOT_PASSED");
+        require(!stakerWithdrawn[stakeId], "WorldesMine: ALREADY_WITHDRAWN");
 
         _updateAllReward(msg.sender);
-        _totalSupply = _totalSupply.sub(amount);
-        _balances[msg.sender] = _balances[msg.sender].sub(amount);
-        IERC20(_TOKEN_).safeTransfer(msg.sender, amount);
+        _totalSupply = _totalSupply.sub(stakeInfo.stakeAmount);
+        _balances[msg.sender] = _balances[msg.sender].sub(stakeInfo.stakeAmount);
+        IERC20(_TOKEN_).safeTransfer(msg.sender, stakeInfo.stakeAmount);
 
-        emit Withdraw(msg.sender, amount);
+        stakerWithdrawn[stakeId] = true;
+
+        emit Withdraw(msg.sender, stakeId, stakeInfo.stakeAmount);
     }
 }

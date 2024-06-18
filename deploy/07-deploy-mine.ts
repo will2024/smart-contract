@@ -52,6 +52,35 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   }).then((res) => {
     console.log("WorldesMineProxy deployed to: %s, %s", res.address, res.newlyDeployed);
   });
+  const worldesMineProxy = await getDeployedContractWithDefaultName("WorldesMineProxy");
+
+  //worldesMineRegistry owner init
+  tx = await worldesMineRegistry.initOwner(deployer);
+  await tx.wait().then(() => {
+    console.log("worldesMineRegistry initOwner done!");
+  });
+
+  //worldesMineProxy owner init
+  tx = await worldesMineProxy.initOwner(deployer);
+  await tx.wait().then(() => {
+    console.log("worldesMineProxy initOwner done!");
+  });
+
+  //add worldesMineProxy to worldesMineRegistry adminList
+  tx = await worldesMineRegistry.addAdminList(worldesMineProxy.target);
+  await tx.wait().then(() => {
+    console.log("worldesMineProxy addAdminList to worldesMineRegistry!");
+  });
+
+  // //add worldesMineProxy to worldesApproveProxy
+  // tx = await worldesApproveProxy.unlockAddProxy(worldesMineProxy.target);
+  // await tx.wait().then(() => {
+  //   console.log("worldesMineProxy unlockAddProxy to worldesApproveProxy!");
+  // });
+  // tx = await worldesApproveProxy.addWorldesProxy();
+  // await tx.wait().then(() => {
+  //   console.log("worldesMineProxy addWorldesProxy to worldesApproveProxy!");
+  // });
 
   console.log("mine done");
 }

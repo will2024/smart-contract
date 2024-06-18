@@ -1,10 +1,12 @@
-import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigInt, log } from "@graphprotocol/graph-ts";
 import {
   Deposit,
   Withdraw,
   NewRewardToken,
+  UpdateReward,
+  UpdateEndTime,
 } from "../../../generated/templates/ERC20Mine/ERC20Mine";
-import { MinePool, RewardDetail, UserStake } from "../../../generated/schema";
+import { MinePool, RewardDetail, StakeHistory, UserStake, StakeDetail } from "../../../generated/schema";
 import { getRewardNum, rewardTokenInfos } from "./helper";
 
 export function handleDeposit(event: Deposit): void {
@@ -22,6 +24,46 @@ export function handleDeposit(event: Deposit): void {
   userStake.balance = userStake.balance.plus(event.params.amount);
   userStake.updatedAt = event.block.timestamp;
   userStake.save();
+
+  let minePool = MinePool.load(event.address.toHexString());
+  if (minePool == null)  {
+    log.error("minePool is null", []);
+    return;
+  }
+
+  let stakeDetailId = event.params.stakeId.toHexString();
+  let stakeDetail = StakeDetail.load(stakeDetailId);
+  if (stakeDetail != null) {
+    log.error("stakeDetail is not null", []);
+    return;
+  }
+  
+  if (stakeDetail == null) {
+    stakeDetail = new UserStakeDetail(stakeDetailId);
+    stakeDetail.user = event.params.user;
+    stakeDetail.pool = event.address;
+    stakeDetail.amount = event.params.amount;
+    stakeDetail.stakeTime = event.block.timestamp;
+    stakeDetail.unlockTime = event.block.timestamp.plus(minePool.lockDuration!);
+    stakeDetail.withdrawTime = BigInt.fromI32(0);
+  }
+  stakeDetail.save();
+
+  let userStakeHistoryId = event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toString());
+  let userStakeHistory = StakeHistory.load(userStakeHistoryId);
+  if (userStakeHistory != null) {
+    log.error("userStakeHistory is not null", []);
+    return;
+  }
+  if (userStakeHistory == null) {
+    userStakeHistory = new StakeHistory(userStakeHistoryId);
+    userStakeHistory.user = event.params.user;
+    userStakeHistory.pool = event.address;
+    userStakeHistory.amount = event.params.amount;
+    userStakeHistory.updatedAt = event.block.timestamp;
+    userStakeHistory.type = "DEPOSIT";
+  }
+  userStakeHistory.save();
 }
 
 export function handleWithdraw(event: Withdraw): void {
@@ -39,6 +81,37 @@ export function handleWithdraw(event: Withdraw): void {
   userStake.balance = userStake.balance.minus(event.params.amount);
   userStake.updatedAt = event.block.timestamp;
   userStake.save();
+
+  let minePool = MinePool.load(event.address.toHexString());
+  if (minePool == null)  {
+    log.error("minePool is null", []);
+    return;
+  }
+
+  let stakeDetailId = event.params.stakeId.toHexString();
+  let stakeDetail = StakeDetail.load(stakeDetailId);
+  if (stakeDetail == null) {
+    log.error("stakeDetail is null", []);
+    return;
+  }
+  stakeDetail.withdrawTime = event.block.timestamp;
+  stakeDetail.save();
+
+  let userStakeHistoryId = event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toString());
+  let userStakeHistory = StakeHistory.load(userStakeHistoryId);
+  if (userStakeHistory != null) {
+    log.error("userStakeHistory is not null", []);
+    return;
+  }
+  if (userStakeHistory == null) {
+    userStakeHistory = new StakeHistory(userStakeHistoryId);
+    userStakeHistory.user = event.params.user;
+    userStakeHistory.pool = event.address;
+    userStakeHistory.amount = event.params.amount;
+    userStakeHistory.updatedAt = event.block.timestamp;
+    userStakeHistory.type = "WITHDRAW";
+  }
+  userStakeHistory.save();
 }
 
 export function handleNewRewardToken(event: NewRewardToken): void {
@@ -59,9 +132,9 @@ export function handleNewRewardToken(event: NewRewardToken): void {
     }
     rewardDetail.minePool = minePool.id;
     rewardDetail.token = rewardData.value0;
-    rewardDetail.startBlock = rewardData.value1;
-    rewardDetail.endBlock = rewardData.value2;
-    rewardDetail.rewardPerBlock = rewardData.value4;
+    rewardDetail.startTime = rewardData.value1;
+    rewardDetail.endTime = rewardData.value2;
+    rewardDetail.rewardPerSecond = rewardData.value4;
     rewardDetail.updatedAt = event.block.timestamp;
     rewardDetail.save();
   }
@@ -70,7 +143,7 @@ export function handleNewRewardToken(event: NewRewardToken): void {
   minePool.save();
 }
 
-export function handleUpdateEndBlock(event: NewRewardToken): void {
+export function handleUpdateEndTime(event: UpdateEndTime): void {
   let minePool = MinePool.load(event.address.toHexString());
   if (minePool == null) return;
   let rewardTokensNum = getRewardNum(event.address);
@@ -88,9 +161,9 @@ export function handleUpdateEndBlock(event: NewRewardToken): void {
     }
     rewardDetail.minePool = minePool.id;
     rewardDetail.token = rewardData.value0;
-    rewardDetail.startBlock = rewardData.value1;
-    rewardDetail.endBlock = rewardData.value2;
-    rewardDetail.rewardPerBlock = rewardData.value4;
+    rewardDetail.startTime = rewardData.value1;
+    rewardDetail.endTime = rewardData.value2;
+    rewardDetail.rewardPerSecond = rewardData.value4;
     rewardDetail.updatedAt = event.block.timestamp;
     rewardDetail.save();
   }
@@ -99,7 +172,7 @@ export function handleUpdateEndBlock(event: NewRewardToken): void {
   minePool.save();
 }
 
-export function handleUpdateReward(event: NewRewardToken): void {
+export function handleUpdateReward(event: UpdateReward): void {
   let minePool = MinePool.load(event.address.toHexString());
   if (minePool == null) return;
   let rewardTokensNum = getRewardNum(event.address);
@@ -117,9 +190,9 @@ export function handleUpdateReward(event: NewRewardToken): void {
     }
     rewardDetail.minePool = minePool.id;
     rewardDetail.token = rewardData.value0;
-    rewardDetail.startBlock = rewardData.value1;
-    rewardDetail.endBlock = rewardData.value2;
-    rewardDetail.rewardPerBlock = rewardData.value4;
+    rewardDetail.startTime = rewardData.value1;
+    rewardDetail.endTime = rewardData.value2;
+    rewardDetail.rewardPerSecond = rewardData.value4;
     rewardDetail.updatedAt = event.block.timestamp;
     rewardDetail.save();
   }

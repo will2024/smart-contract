@@ -55,8 +55,14 @@
       },
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "stakeToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
-        "name": "platform",
+        "name": "lockDuration",
         "type": "uint256"
       }
     ],
@@ -250,7 +256,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "platform",
+        "name": "lockDuration",
         "type": "uint256"
       },
       {
@@ -260,17 +266,17 @@
       },
       {
         "internalType": "uint256[]",
-        "name": "rewardPerBlock",
+        "name": "rewardPerSecond",
         "type": "uint256[]"
       },
       {
         "internalType": "uint256[]",
-        "name": "startBlock",
+        "name": "startTime",
         "type": "uint256[]"
       },
       {
         "internalType": "uint256[]",
-        "name": "endBlock",
+        "name": "endTime",
         "type": "uint256[]"
       }
     ],

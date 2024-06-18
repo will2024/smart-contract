@@ -11,7 +11,8 @@ interface IWorldesMineRegistry {
     function addMine(
         address mine,
         bool isLpToken,
-        address stakeToken
+        address stakeToken,
+        uint256 lockDuration
     ) external;
 }
 
@@ -26,15 +27,20 @@ contract WorldesMineRegistry is InitializableOwnable, IWorldesMineRegistry {
     
     // ============ Registry ============
     // minePool -> stakeToken
-    mapping(address => address) public _MINE_REGISTRY_;
+    mapping(address => PoolInfo) public _MINE_REGISTRY_;
     // lpToken -> minePool
     mapping(address => address[]) public _LP_REGISTRY_;
     // singleToken -> minePool
     mapping(address => address[]) public _SINGLE_REGISTRY_;
 
+    struct PoolInfo {
+        address mine;
+        address stakeToken;
+        uint256 lockTime;
+    }
 
     // ============ Events ============
-    event NewMine(address mine, address stakeToken, bool isLpToken);
+    event NewMine(address mine, address stakeToken, bool isLpToken, uint256 lockDuration);
     event RemoveMine(address mine, address stakeToken);
     event addAdmin(address admin);
     event removeAdmin(address admin);
@@ -43,17 +49,23 @@ contract WorldesMineRegistry is InitializableOwnable, IWorldesMineRegistry {
     function addMine(
         address mine,
         bool isLpToken,
-        address stakeToken
+        address stakeToken,
+        uint256 lockDuration
     ) override external {
         require(isAdminListed[msg.sender], "ACCESS_DENIED");
-        _MINE_REGISTRY_[mine] = stakeToken;
+        _MINE_REGISTRY_[mine] = PoolInfo({
+            mine: mine,
+            stakeToken: stakeToken,
+            lockTime: lockDuration
+        });
+
         if(isLpToken) {
             _LP_REGISTRY_[stakeToken].push(mine);
         }else {
             _SINGLE_REGISTRY_[stakeToken].push(mine);
         }
 
-        emit NewMine(mine, stakeToken, isLpToken);
+        emit NewMine(mine, stakeToken, isLpToken, lockDuration);
     }
 
     // ============ Admin Operation Functions ============
@@ -63,7 +75,11 @@ contract WorldesMineRegistry is InitializableOwnable, IWorldesMineRegistry {
         bool isLpToken,
         address stakeToken
     ) external onlyOwner {
-        _MINE_REGISTRY_[mine] = address(0);
+        _MINE_REGISTRY_[mine] = PoolInfo({
+            mine: address(0),
+            stakeToken: address(0),
+            lockTime: 0
+        });
         if(isLpToken) {
             uint256 len = _LP_REGISTRY_[stakeToken].length;
             for (uint256 i = 0; i < len; i++) {

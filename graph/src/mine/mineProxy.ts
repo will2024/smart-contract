@@ -32,9 +32,9 @@ import { BigInt, log } from "@graphprotocol/graph-ts";
 //     }
 //     rewardDetail.minePool = minePool.id;
 //     rewardDetail.token = rewardData.value0;
-//     rewardDetail.startBlock = rewardData.value1;
-//     rewardDetail.endBlock = rewardData.value2;
-//     rewardDetail.rewardPerBlock = rewardData.value4;
+//     rewardDetail.startTime = rewardData.value1;
+//     rewardDetail.endTime = rewardData.value2;
+//     rewardDetail.rewardPerSecond = rewardData.value4;
 //     rewardDetail.updatedAt = event.block.timestamp;
 //     rewardDetail.save();
 //   }
@@ -57,7 +57,7 @@ export function handleV2CreateMine(event: V2CreateMine): void {
   minePool.creator = event.params.account;
   minePool.pool = event.params.mine;
   minePool.timestamp = event.block.timestamp;
-  minePool.platform = event.params.platform;
+  minePool.lockDuration = event.params.lockDuration;
   minePool.stakeToken = getToken(event.params.mine);
 
   let rewardTokensNum = getRewardNum(event.params.mine);
@@ -75,9 +75,9 @@ export function handleV2CreateMine(event: V2CreateMine): void {
     }
     rewardDetail.minePool = minePool.id;
     rewardDetail.token = rewardData.value0;
-    rewardDetail.startBlock = rewardData.value1;
-    rewardDetail.endBlock = rewardData.value2;
-    rewardDetail.rewardPerBlock = rewardData.value4;
+    rewardDetail.startTime = rewardData.value1;
+    rewardDetail.endTime = rewardData.value2;
+    rewardDetail.rewardPerSecond = rewardData.value4;
     rewardDetail.updatedAt = event.block.timestamp;
     rewardDetail.save();
   }

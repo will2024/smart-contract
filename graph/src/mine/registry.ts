@@ -10,5 +10,7 @@ export function handleNewMine(event: NewMine): void {
     minePool.pool = event.params.mine;
     minePool.isLpToken = event.params.isLpToken;
     minePool.updatedAt = event.block.timestamp;
+    minePool.stakeToken = event.params.stakeToken;
+    minePool.lockDuration = event.params.lockDuration;
     minePool.save();
 }

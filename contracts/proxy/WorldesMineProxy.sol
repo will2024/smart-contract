@@ -15,13 +15,13 @@ import {ICloneFactory} from "../libraries/CloneFactory.sol";
 import {SafeMath} from "../libraries/SafeMath.sol";
 
 interface IMine {
-    function init(address owner, address token) external;
+    function init(address owner, address token, uint256 lockDuration) external;
 
     function addRewardToken(
         address rewardToken,
-        uint256 rewardPerBlock,
-        uint256 startBlock,
-        uint256 endBlock
+        uint256 rewardPerSecond,
+        uint256 startTime,
+        uint256 endTime
     ) external;
 
     function directTransferOwnership(address newOwner) external;
@@ -47,7 +47,7 @@ contract WorldesMineProxy is InitializableOwnable {
     // ============ Events ============
     event DepositRewardToVault(address mine, address rewardToken, uint256 amount);
     event DepositRewardToMine(address mine, address rewardToken, uint256 amount);
-    event CreateMine(address account, address mine, uint256 platform);
+    event CreateMine(address account, address mine, address stakeToken, uint256 lockDuration);
     event ChangeMineTemplate(address mine);
 
     constructor(
@@ -67,37 +67,37 @@ contract WorldesMineProxy is InitializableOwnable {
     function createWorldesMine(
         address stakeToken,
         bool isLpToken,
-        uint256 platform,
+        uint256 lockDuration,
         address[] memory rewardTokens,
-        uint256[] memory rewardPerBlock,
-        uint256[] memory startBlock,
-        uint256[] memory endBlock
+        uint256[] memory rewardPerSecond,
+        uint256[] memory startTime,
+        uint256[] memory endTime
     ) external returns (address newMine) {
         // require(rewardTokens.length > 0, "REWARD_EMPTY");
-        require(rewardTokens.length == rewardPerBlock.length, "REWARD_PARAM_NOT_MATCH");
-        require(startBlock.length == rewardPerBlock.length, "REWARD_PARAM_NOT_MATCH");
-        require(endBlock.length == rewardPerBlock.length, "REWARD_PARAM_NOT_MATCH");
+        require(rewardTokens.length == rewardPerSecond.length, "REWARD_PARAM_NOT_MATCH");
+        require(startTime.length == rewardPerSecond.length, "REWARD_PARAM_NOT_MATCH");
+        require(endTime.length == rewardPerSecond.length, "REWARD_PARAM_NOT_MATCH");
 
         newMine = ICloneFactory(_CLONE_FACTORY_).clone(_MINE_TEMPLATE_);
 
-        IMine(newMine).init(address(this), stakeToken);
+        IMine(newMine).init(address(this), stakeToken, lockDuration);
 
         for(uint i = 0; i<rewardTokens.length; i++) {
-            uint256 rewardAmount = rewardPerBlock[i].mul(endBlock[i].sub(startBlock[i]));
+            uint256 rewardAmount = rewardPerSecond[i].mul(endTime[i].sub(startTime[i]));
             IWorldesApproveProxy(_WORLDES_APPROVE_PROXY_).claimTokens(rewardTokens[i], msg.sender, newMine, rewardAmount);
             IMine(newMine).addRewardToken(
                 rewardTokens[i],
-                rewardPerBlock[i],
-                startBlock[i],
-                endBlock[i]
+                rewardPerSecond[i],
+                startTime[i],
+                endTime[i]
             );
         }
 
         IMine(newMine).directTransferOwnership(msg.sender);
 
-        IWorldesMineRegistry(_WORLDES_MINE_REGISTRY_).addMine(newMine, isLpToken, stakeToken);
+        IWorldesMineRegistry(_WORLDES_MINE_REGISTRY_).addMine(newMine, isLpToken, stakeToken, lockDuration);
 
-        emit CreateMine(msg.sender, newMine, platform);
+        emit CreateMine(msg.sender, newMine, stakeToken, lockDuration);
     }
 
     function depositRewardToVault(

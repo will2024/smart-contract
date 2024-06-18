@@ -885,10 +885,14 @@ type MinePool @entity {
     stakeToken:Bytes
     "isLptoken"
     isLpToken: Boolean
-    "mineType"
-    platform:BigInt
+    "lockDuration"
+    lockDuration:BigInt
     "reward details"
     rewardDetail:[RewardDetail!]! @derivedFrom(field: "minePool")
+    "stake details"
+    stakeDetails:[StakeDetail!]! @derivedFrom(field: "pool")
+    "stake history"
+    stakeHistory:[StakeHistory!]! @derivedFrom(field: "pool")
     "updatedAt"
     updatedAt:BigInt!
 }
@@ -900,12 +904,12 @@ type RewardDetail @entity{
     minePool: MinePool!
     "rewardTokens"
     token: Bytes!
-    "reward per block"
-    rewardPerBlock: BigInt!
-    "start block"
-    startBlock: BigInt!
-    "end block"
-    endBlock: BigInt!
+    "reward per second"
+    rewardPerSecond: BigInt!
+    "start time"
+    startTime: BigInt!
+    "end time"
+    endTime: BigInt!
     "updatedAt"
     updatedAt:BigInt!
 }
@@ -923,3 +927,34 @@ type UserStake @entity{
     updatedAt:BigInt!
 }
 
+type StakeDetail @entity{
+    "stake id"
+    id: ID!
+    "user address"
+    user:Bytes!
+    "pool"
+    pool:MinePool!
+    "amount"
+    amount:BigInt!
+    "stakeTime"
+    stakeTime:BigInt!
+    "unlockTime"
+    unlockTime:BigInt!
+    "withdrawTime"
+    withdrawTime:BigInt!
+}
+
+type StakeHistory @entity{
+    "transaction hash"
+    id: ID!
+    "user address"
+    user:Bytes!
+    "pool"
+    pool:Bytes!
+    "amount"
+    amount:BigInt!
+    "updatedAt"
+    updatedAt:BigInt!
+    "type(DEPOSIT、WITHDRAW)"
+    type: String!
+}

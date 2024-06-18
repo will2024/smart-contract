@@ -21,14 +21,14 @@ contract BaseMine is InitializableOwnable {
 
     struct RewardTokenInfo {
         address rewardToken;
-        uint256 startBlock;
-        uint256 endBlock;
+        uint256 startTime;
+        uint256 endTime;
         address rewardVault;
-        uint256 rewardPerBlock;
+        uint256 rewardPerSecond;
         uint256 accRewardPerShare;
-        uint256 lastRewardBlock;
+        uint256 lastRewardTime;
         uint256 workThroughReward;
-        uint256 lastFlagBlock;
+        uint256 lastFlagTime;
         mapping(address => uint256) userRewardPerSharePaid;
         mapping(address => uint256) userRewards;
     }
@@ -41,8 +41,8 @@ contract BaseMine is InitializableOwnable {
     // ============ Event =============
 
     event Claim(uint256 indexed i, address indexed user, uint256 reward);
-    event UpdateReward(uint256 indexed i, uint256 rewardPerBlock);
-    event UpdateEndBlock(uint256 indexed i, uint256 endBlock);
+    event UpdateReward(uint256 indexed i, uint256 rewardPerSecond);
+    event UpdateEndTime(uint256 indexed i, uint256 endTime);
     event NewRewardToken(uint256 indexed i, address rewardToken);
     event RemoveRewardToken(address rewardToken);
     event WithdrawLeftOver(address owner, uint256 i);
@@ -53,7 +53,7 @@ contract BaseMine is InitializableOwnable {
         require(i<rewardTokenInfos.length, "WorldesMine: REWARD_ID_NOT_FOUND");
         RewardTokenInfo storage rt = rewardTokenInfos[i];
         uint256 accRewardPerShare = rt.accRewardPerShare;
-        if (rt.lastRewardBlock != block.number) {
+        if (rt.lastRewardTime != block.timestamp) {
             accRewardPerShare = _getAccRewardPerShare(i);
         }
         return
@@ -110,8 +110,8 @@ contract BaseMine is InitializableOwnable {
         for (uint256 i = 0; i < len; i++) {
             if (rewardToken == rewardTokenInfos[i].rewardToken) {
                 uint256 totalDepositReward = IRewardVault(rewardTokenInfos[i].rewardVault)._TOTAL_REWARD_();
-                uint256 gap = rewardTokenInfos[i].endBlock.sub(rewardTokenInfos[i].lastFlagBlock);
-                uint256 totalReward = rewardTokenInfos[i].workThroughReward.add(gap.mul(rewardTokenInfos[i].rewardPerBlock));
+                uint256 gap = rewardTokenInfos[i].endTime.sub(rewardTokenInfos[i].lastFlagTime);
+                uint256 totalReward = rewardTokenInfos[i].workThroughReward.add(gap.mul(rewardTokenInfos[i].rewardPerSecond));
                 if(totalDepositReward >= totalReward) {
                     return 0;
                 }else {
@@ -147,13 +147,13 @@ contract BaseMine is InitializableOwnable {
 
     function addRewardToken(
         address rewardToken,
-        uint256 rewardPerBlock,
-        uint256 startBlock,
-        uint256 endBlock
+        uint256 rewardPerSecond,
+        uint256 startTime,
+        uint256 endTime
     ) external onlyOwner {
         require(rewardToken != address(0), "WorldesMine: TOKEN_INVALID");
-        require(startBlock > block.number, "WorldesMine: START_BLOCK_INVALID");
-        require(endBlock > startBlock, "WorldesMine: DURATION_INVALID");
+        require(startTime > block.timestamp, "WorldesMine: START_BLOCK_INVALID");
+        require(endTime > startTime, "WorldesMine: DURATION_INVALID");
 
         uint256 len = rewardTokenInfos.length;
         for (uint256 i = 0; i < len; i++) {
@@ -165,20 +165,20 @@ contract BaseMine is InitializableOwnable {
 
         RewardTokenInfo storage rt = rewardTokenInfos.push();
         rt.rewardToken = rewardToken;
-        rt.startBlock = startBlock;
-        rt.lastFlagBlock = startBlock;
-        rt.endBlock = endBlock;
-        rt.rewardPerBlock = rewardPerBlock;
+        rt.startTime = startTime;
+        rt.lastFlagTime = startTime;
+        rt.endTime = endTime;
+        rt.rewardPerSecond = rewardPerSecond;
         rt.rewardVault = address(new RewardVault(rewardToken));
 
-        uint256 rewardAmount = rewardPerBlock.mul(endBlock.sub(startBlock));
+        uint256 rewardAmount = rewardPerSecond.mul(endTime.sub(startTime));
         IERC20(rewardToken).safeTransfer(rt.rewardVault, rewardAmount);
         RewardVault(rt.rewardVault).syncValue();
 
         emit NewRewardToken(len, rewardToken);
     }
 
-    function setEndBlock(uint256 i, uint256 newEndBlock)
+    function setEndTime(uint256 i, uint256 newEndTime)
         external
         onlyOwner
     {
@@ -188,19 +188,19 @@ contract BaseMine is InitializableOwnable {
 
 
         uint256 totalDepositReward = RewardVault(rt.rewardVault)._TOTAL_REWARD_();
-        uint256 gap = newEndBlock.sub(rt.lastFlagBlock);
-        uint256 totalReward = rt.workThroughReward.add(gap.mul(rt.rewardPerBlock));
+        uint256 gap = newEndTime.sub(rt.lastFlagTime);
+        uint256 totalReward = rt.workThroughReward.add(gap.mul(rt.rewardPerSecond));
         require(totalDepositReward >= totalReward, "WorldesMine: REWARD_NOT_ENOUGH");
 
-        require(block.number < newEndBlock, "WorldesMine: END_BLOCK_INVALID");
-        require(block.number > rt.startBlock, "WorldesMine: NOT_START");
-        require(block.number < rt.endBlock, "WorldesMine: ALREADY_CLOSE");
+        require(block.timestamp < newEndTime, "WorldesMine: END_BLOCK_INVALID");
+        require(block.timestamp > rt.startTime, "WorldesMine: NOT_START");
+        require(block.timestamp < rt.endTime, "WorldesMine: ALREADY_CLOSE");
 
-        rt.endBlock = newEndBlock;
-        emit UpdateEndBlock(i, newEndBlock);
+        rt.endTime = newEndTime;
+        emit UpdateEndTime(i, newEndTime);
     }
 
-    function setReward(uint256 i, uint256 newRewardPerBlock)
+    function setReward(uint256 i, uint256 newRewardPerSecond)
         external
         onlyOwner
     {
@@ -208,28 +208,28 @@ contract BaseMine is InitializableOwnable {
         _updateReward(address(0), i);
         RewardTokenInfo storage rt = rewardTokenInfos[i];
         
-        require(block.number < rt.endBlock, "WorldesMine: ALREADY_CLOSE");
+        require(block.timestamp < rt.endTime, "WorldesMine: ALREADY_CLOSE");
         
-        rt.workThroughReward = rt.workThroughReward.add((block.number.sub(rt.lastFlagBlock)).mul(rt.rewardPerBlock));
-        rt.rewardPerBlock = newRewardPerBlock;
-        rt.lastFlagBlock = block.number;
+        rt.workThroughReward = rt.workThroughReward.add((block.timestamp.sub(rt.lastFlagTime)).mul(rt.rewardPerSecond));
+        rt.rewardPerSecond = newRewardPerSecond;
+        rt.lastFlagTime = block.timestamp;
 
         uint256 totalDepositReward = RewardVault(rt.rewardVault)._TOTAL_REWARD_();
-        uint256 gap = rt.endBlock.sub(block.number);
-        uint256 totalReward = rt.workThroughReward.add(gap.mul(newRewardPerBlock));
+        uint256 gap = rt.endTime.sub(block.timestamp);
+        uint256 totalReward = rt.workThroughReward.add(gap.mul(newRewardPerSecond));
         require(totalDepositReward >= totalReward, "WorldesMine: REWARD_NOT_ENOUGH");
 
-        emit UpdateReward(i, newRewardPerBlock);
+        emit UpdateReward(i, newRewardPerSecond);
     }
 
     function withdrawLeftOver(uint256 i, uint256 amount) external onlyOwner {
         require(i < rewardTokenInfos.length, "WorldesMine: REWARD_ID_NOT_FOUND");
         
         RewardTokenInfo storage rt = rewardTokenInfos[i];
-        require(block.number > rt.endBlock, "WorldesMine: MINING_NOT_FINISHED");
+        require(block.timestamp > rt.endTime, "WorldesMine: MINING_NOT_FINISHED");
         
-        uint256 gap = rt.endBlock.sub(rt.lastFlagBlock);
-        uint256 totalReward = rt.workThroughReward.add(gap.mul(rt.rewardPerBlock));
+        uint256 gap = rt.endTime.sub(rt.lastFlagTime);
+        uint256 totalReward = rt.workThroughReward.add(gap.mul(rt.rewardPerSecond));
         uint256 totalDepositReward = IRewardVault(rt.rewardVault)._TOTAL_REWARD_();
         require(amount <= totalDepositReward.sub(totalReward), "WorldesMine: NOT_ENOUGH");
 
@@ -249,9 +249,9 @@ contract BaseMine is InitializableOwnable {
 
     function _updateReward(address user, uint256 i) internal {
         RewardTokenInfo storage rt = rewardTokenInfos[i];
-        if (rt.lastRewardBlock != block.number){
+        if (rt.lastRewardTime != block.timestamp){
             rt.accRewardPerShare = _getAccRewardPerShare(i);
-            rt.lastRewardBlock = block.number;
+            rt.lastRewardTime = block.timestamp;
         }
         if (user != address(0)) {
             rt.userRewards[user] = getPendingReward(user, i);
@@ -266,13 +266,13 @@ contract BaseMine is InitializableOwnable {
         }
     }
 
-    function _getUnrewardBlockNum(uint256 i) internal view returns (uint256) {
+    function _getUnrewardTimeNum(uint256 i) internal view returns (uint256) {
         RewardTokenInfo memory rt = rewardTokenInfos[i];
-        if (block.number < rt.startBlock || rt.lastRewardBlock > rt.endBlock) {
+        if (block.timestamp < rt.startTime || rt.lastRewardTime > rt.endTime) {
             return 0;
         }
-        uint256 start = rt.lastRewardBlock < rt.startBlock ? rt.startBlock : rt.lastRewardBlock;
-        uint256 end = rt.endBlock < block.number ? rt.endBlock : block.number;
+        uint256 start = rt.lastRewardTime < rt.startTime ? rt.startTime : rt.lastRewardTime;
+        uint256 end = rt.endTime < block.timestamp ? rt.endTime : block.timestamp;
         return end.sub(start);
     }
 
@@ -283,7 +283,7 @@ contract BaseMine is InitializableOwnable {
         }
         return
             rt.accRewardPerShare.add(
-                DecimalMath.divFloor(_getUnrewardBlockNum(i).mul(rt.rewardPerBlock), totalSupply())
+                DecimalMath.divFloor(_getUnrewardTimeNum(i).mul(rt.rewardPerSecond), totalSupply())
             );
     }
 

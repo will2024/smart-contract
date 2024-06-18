@@ -19,6 +19,12 @@
         "internalType": "bool",
         "name": "isLpToken",
         "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "lockDuration",
+        "type": "uint256"
       }
     ],
     "name": "NewMine",
@@ -143,8 +149,18 @@
     "outputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "mine",
         "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "stakeToken",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lockTime",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -229,6 +245,11 @@
         "internalType": "address",
         "name": "stakeToken",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lockDuration",
+        "type": "uint256"
       }
     ],
     "name": "addMine",
