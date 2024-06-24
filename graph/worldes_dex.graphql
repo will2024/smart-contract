@@ -893,6 +893,8 @@ type MinePool @entity {
     stakeDetails:[StakeDetail!]! @derivedFrom(field: "pool")
     "stake history"
     stakeHistory:[StakeHistory!]! @derivedFrom(field: "pool")
+    "stake history"
+    robotStakeHistory:[RobotStakeHistory!]! @derivedFrom(field: "pool")
     "updatedAt"
     updatedAt:BigInt!
 }
@@ -950,7 +952,22 @@ type StakeHistory @entity{
     "user address"
     user:Bytes!
     "pool"
-    pool:Bytes!
+    pool:MinePool!
+    "amount"
+    amount:BigInt!
+    "updatedAt"
+    updatedAt:BigInt!
+    "type(DEPOSIT、WITHDRAW)"
+    type: String!
+}
+
+type RobotStakeHistory @entity{
+    "transaction hash"
+    id: ID!
+    "robot address"
+    robot:Bytes!
+    "pool"
+    pool:MinePool!
     "amount"
     amount:BigInt!
     "updatedAt"

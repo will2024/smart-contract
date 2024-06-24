@@ -5,8 +5,10 @@ import {
   NewRewardToken,
   UpdateReward,
   UpdateEndTime,
+  DepositByRobot,
+  WithdrawByRobot,
 } from "../../../generated/templates/ERC20Mine/ERC20Mine";
-import { MinePool, RewardDetail, StakeHistory, UserStake, StakeDetail } from "../../../generated/schema";
+import { MinePool, RewardDetail, StakeHistory, UserStake, StakeDetail, RobotStakeHistory } from "../../../generated/schema";
 import { getRewardNum, rewardTokenInfos } from "./helper";
 
 export function handleDeposit(event: Deposit): void {
@@ -39,9 +41,9 @@ export function handleDeposit(event: Deposit): void {
   }
   
   if (stakeDetail == null) {
-    stakeDetail = new UserStakeDetail(stakeDetailId);
+    stakeDetail = new StakeDetail(stakeDetailId);
     stakeDetail.user = event.params.user;
-    stakeDetail.pool = event.address;
+    stakeDetail.pool = minePool.id;
     stakeDetail.amount = event.params.amount;
     stakeDetail.stakeTime = event.block.timestamp;
     stakeDetail.unlockTime = event.block.timestamp.plus(minePool.lockDuration!);
@@ -58,7 +60,7 @@ export function handleDeposit(event: Deposit): void {
   if (userStakeHistory == null) {
     userStakeHistory = new StakeHistory(userStakeHistoryId);
     userStakeHistory.user = event.params.user;
-    userStakeHistory.pool = event.address;
+    userStakeHistory.pool = minePool.id;
     userStakeHistory.amount = event.params.amount;
     userStakeHistory.updatedAt = event.block.timestamp;
     userStakeHistory.type = "DEPOSIT";
@@ -106,12 +108,60 @@ export function handleWithdraw(event: Withdraw): void {
   if (userStakeHistory == null) {
     userStakeHistory = new StakeHistory(userStakeHistoryId);
     userStakeHistory.user = event.params.user;
-    userStakeHistory.pool = event.address;
+    userStakeHistory.pool = minePool.id;
     userStakeHistory.amount = event.params.amount;
     userStakeHistory.updatedAt = event.block.timestamp;
     userStakeHistory.type = "WITHDRAW";
   }
   userStakeHistory.save();
+}
+
+export function handleDepositByRobot(event: DepositByRobot): void {
+  let minePool = MinePool.load(event.address.toHexString());
+  if (minePool == null)  {
+    log.error("minePool is null", []);
+    return;
+  }
+
+  let robotStakeHistoryId = event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toString());
+  let robotStakeHistory = RobotStakeHistory.load(robotStakeHistoryId);
+  if (robotStakeHistory != null) {
+    log.error("robotStakeHistory is not null", []);
+    return;
+  }
+  if (robotStakeHistory == null) {
+    robotStakeHistory = new RobotStakeHistory(robotStakeHistoryId);
+    robotStakeHistory.robot = event.params.robot;
+    robotStakeHistory.pool = minePool.id;
+    robotStakeHistory.amount = event.params.amount;
+    robotStakeHistory.updatedAt = event.block.timestamp;
+    robotStakeHistory.type = "DEPOSIT";
+  }
+  robotStakeHistory.save();
+}
+
+export function handleWithdrawByRobot(event: WithdrawByRobot): void {
+  let minePool = MinePool.load(event.address.toHexString());
+  if (minePool == null)  {
+    log.error("minePool is null", []);
+    return;
+  }
+
+  let robotStakeHistoryId = event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toString());
+  let robotStakeHistory = RobotStakeHistory.load(robotStakeHistoryId);
+  if (robotStakeHistory != null) {
+    log.error("robotStakeHistory is not null", []);
+    return;
+  }
+  if (robotStakeHistory == null) {
+    robotStakeHistory = new RobotStakeHistory(robotStakeHistoryId);
+    robotStakeHistory.robot = event.params.robot;
+    robotStakeHistory.pool = minePool.id;
+    robotStakeHistory.amount = event.params.amount;
+    robotStakeHistory.updatedAt = event.block.timestamp;
+    robotStakeHistory.type = "WITHDRAW";
+  }
+  robotStakeHistory.save();
 }
 
 export function handleNewRewardToken(event: NewRewardToken): void {

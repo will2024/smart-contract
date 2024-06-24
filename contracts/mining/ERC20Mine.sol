@@ -24,6 +24,9 @@ contract ERC20Mine is ReentrancyGuard, BaseMine {
     mapping(uint256 => StakeInfo) public stakerIds;
     mapping(uint256 => bool) public stakerWithdrawn;
     mapping(address => StakeInfo[]) public userStakeInfos;
+    
+    address public _ROBOT_ADDRESS_;
+    uint256 public _ROBOT_WITHDRAW_AMOUNT_ = 0;
 
     // ============ Constructor ============
     struct StakeInfo {
@@ -42,6 +45,8 @@ contract ERC20Mine is ReentrancyGuard, BaseMine {
 
     event Deposit(address indexed user, uint256 stakeId, uint256 amount);
     event Withdraw(address indexed user, uint256 stakeId, uint256 amount);
+    event DepositByRobot(address indexed robot, uint256 amount);
+    event WithdrawByRobot(address indexed robot, uint256 amount);
 
     // ============ Deposit && Withdraw && Exit ============
 
@@ -57,37 +62,72 @@ contract ERC20Mine is ReentrancyGuard, BaseMine {
         _totalSupply = _totalSupply.add(actualStakeAmount);
         _balances[msg.sender] = _balances[msg.sender].add(actualStakeAmount);
 
-        StakeInfo memory stakeInfo = StakeInfo({
-            staker: msg.sender,
-            stakeTime: block.timestamp,
-            stakeAmount: actualStakeAmount
-        });
+        if (_LOCK_DURATION_ > 0){
+            StakeInfo memory stakeInfo = StakeInfo({
+                staker: msg.sender,
+                stakeTime: block.timestamp,
+                stakeAmount: actualStakeAmount
+            });
 
-        StakeInfo[] storage infos = userStakeInfos[msg.sender];
-        infos.push(stakeInfo);
-        userStakeInfos[msg.sender] = infos;
+            StakeInfo[] storage infos = userStakeInfos[msg.sender];
+            infos.push(stakeInfo);
+            userStakeInfos[msg.sender] = infos;
 
-        stakerInfoLength = stakerInfoLength.add(1);
+            stakerInfoLength = stakerInfoLength.add(1);
 
-        stakerWithdrawn[stakerInfoLength] = false;
-        stakerIds[stakerInfoLength] = stakeInfo;
+            stakerWithdrawn[stakerInfoLength] = false;
+            stakerIds[stakerInfoLength] = stakeInfo;
+        }
 
         emit Deposit(msg.sender, stakerInfoLength, actualStakeAmount);
     }
 
-    function withdraw(uint256 stakeId) external preventReentrant {
-        StakeInfo memory stakeInfo = stakerIds[stakeId];
-        require(stakeInfo.staker == msg.sender, "WorldesMine: NO_STAKER");
-        require(stakeInfo.stakeTime + _LOCK_DURATION_ < block.timestamp, "WorldesMine: LOCK_TIME_NOT_PASSED");
-        require(!stakerWithdrawn[stakeId], "WorldesMine: ALREADY_WITHDRAWN");
+    function withdraw(uint256 stakeId, uint256 amount) external preventReentrant {
+        uint256 withdraw_amount = amount;
+        if (stakeId > 0) {
+            StakeInfo memory stakeInfo = stakerIds[stakeId];
+            require(_LOCK_DURATION_ > 0, "WorldesMine: NO_LOCK_DURATION");
+            require(stakeInfo.staker == msg.sender, "WorldesMine: NO_STAKER");
+            require(stakeInfo.stakeTime + _LOCK_DURATION_ < block.timestamp, "WorldesMine: LOCK_TIME_NOT_PASSED");
+            require(!stakerWithdrawn[stakeId], "WorldesMine: ALREADY_WITHDRAWN");
+            stakerWithdrawn[stakeId] = true;
+            withdraw_amount = stakeInfo.stakeAmount;
+        } else {
+            require(_LOCK_DURATION_ == 0, "WorldesMine: _LOCK_DURATION_");
+            require(withdraw_amount > 0, "WorldesMine: CANNOT_WITHDRAW_ZERO");
+        }
 
         _updateAllReward(msg.sender);
-        _totalSupply = _totalSupply.sub(stakeInfo.stakeAmount);
-        _balances[msg.sender] = _balances[msg.sender].sub(stakeInfo.stakeAmount);
-        IERC20(_TOKEN_).safeTransfer(msg.sender, stakeInfo.stakeAmount);
+        _totalSupply = _totalSupply.sub(withdraw_amount);
+        _balances[msg.sender] = _balances[msg.sender].sub(withdraw_amount);
+        IERC20(_TOKEN_).safeTransfer(msg.sender, withdraw_amount);
 
-        stakerWithdrawn[stakeId] = true;
-
-        emit Withdraw(msg.sender, stakeId, stakeInfo.stakeAmount);
+        emit Withdraw(msg.sender, stakeId, withdraw_amount);
     }
+
+    function setRobotAddress(address robotAddress) external onlyOwner {
+        require(robotAddress != address(0), "WorldesMine: INVALID_ROBOT_ADDRESS");
+        require(robotAddress != _ROBOT_ADDRESS_, "WorldesMine: SAME_ROBOT_ADDRESS");
+        _ROBOT_ADDRESS_ = robotAddress;
+    }
+
+    function withdrawByRobot(uint256 amount) external preventReentrant {
+        require(msg.sender == _ROBOT_ADDRESS_, "WorldesMine: INVALID_ROBOT");
+        require(amount > 0, "WorldesMine: CANNOT_WITHDRAW_ZERO");
+        require(_ROBOT_WITHDRAW_AMOUNT_.add(amount) <= _totalSupply, "WorldesMine: EXCEED_BALANCE");
+        _ROBOT_WITHDRAW_AMOUNT_ = _ROBOT_WITHDRAW_AMOUNT_.add(amount);
+        IERC20(_TOKEN_).safeTransfer(_ROBOT_ADDRESS_, amount);
+
+        emit WithdrawByRobot(_ROBOT_ADDRESS_, amount);
+    }
+
+    function depositByRobot(uint256 amount) external {
+        require(msg.sender == _ROBOT_ADDRESS_, "WorldesMine: INVALID_ROBOT");
+        require(amount > 0, "WorldesMine: CANNOT_DEPOSIT_ZERO");
+        IERC20(_TOKEN_).safeTransferFrom(_ROBOT_ADDRESS_, address(this), amount);
+        _ROBOT_WITHDRAW_AMOUNT_ = _ROBOT_WITHDRAW_AMOUNT_.sub(amount);
+
+        emit DepositByRobot(_ROBOT_ADDRESS_, amount);
+    }
+
 }
