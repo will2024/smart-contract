@@ -16,6 +16,8 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   // ——————————————load deployed contacts————————————————————
   const worlderDvmProxy = await getDeployedContractWithDefaultName("WorldesDvmProxy");
   const worlderDspProxy = await getDeployedContractWithDefaultName("WorldesDspProxy");
+  const worldesMineProxy = await getDeployedContractWithDefaultName("WorldesMineProxy");
+  const worldesLimitOrder = await getDeployedContractWithDefaultName("WorldesLimitOrder");
   const worlderApprove = await getDeployedContractWithDefaultName("WorldesApprove");
   const worlderApproveProxy = await getDeployedContractWithDefaultName("WorldesApproveProxy");
 
@@ -23,11 +25,6 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   console.log("start deploy init");
 
   //init
-  tx = await worlderDvmProxy.initOwner(deployer);
-  await tx.wait().then(() => {
-    console.log("worlderDvmProxy set initOwner done!");
-  });
-
   tx = await worlderApprove.init(
     deployer,
     worlderApproveProxy.target
@@ -38,7 +35,7 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
 
   tx = await worlderApproveProxy.init(
     deployer,
-    [worlderDvmProxy.target, worlderDspProxy.target]
+    [worlderDvmProxy.target, worlderDspProxy.target, worldesMineProxy.target, worldesLimitOrder.target]
   )
   await tx.wait().then(() => {
     console.log("worlderApproveProxy init done!");
@@ -51,7 +48,7 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
 export default deployFunction;
 deployFunction.tags = ["init"];
 if (hre.network.name == "hardhat") {
-  deployFunction.dependencies = ["libs", "dvm", "dsp", "mocks"];  
+  deployFunction.dependencies = ["libs", "dvm", "dsp", "mine", "limit-order", "mocks"];  
 } else {
-  deployFunction.dependencies = ["libs", "dvm", "dsp"];
+  deployFunction.dependencies = ["libs", "dvm", "dsp", "mine", "limit-order"];
 }

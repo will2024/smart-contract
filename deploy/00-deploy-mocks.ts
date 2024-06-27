@@ -43,33 +43,37 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   const faucet = await getDeployedContractWithDefaultName("Faucet");
 
   // Deploy mock tokens
-  let reserveSymbols = ["USDT", "USDE", "MOCKA", "MOCKB", "MOCKC", "MOCKD", "MOCKE", "MOCKF"];
-  let reservesConfig = {
-    USDT: { reserveDecimals: 9 },
-    USDE: { reserveDecimals: 9 },
-    MOCKA: { reserveDecimals: 18 },
-    MOCKB: { reserveDecimals: 18 }, 
-    MOCKC: { reserveDecimals: 18 },
-    MOCKD: { reserveDecimals: 18 },
-    MOCKE: { reserveDecimals: 12 },
-    MOCKF: { reserveDecimals: 9 },
-  } as SymbolMap<decimalsType>;
+  // let reserveSymbols = ["USDT", "USDE", "MOCKA", "MOCKB", "MOCKC", "MOCKD", "MOCKE", "MOCKF"];
+  // let reservesConfig = {
+  //   USDT: { reserveDecimals: 9 },
+  //   USDE: { reserveDecimals: 9 },
+  //   MOCKA: { reserveDecimals: 18 },
+  //   MOCKB: { reserveDecimals: 18 }, 
+  //   MOCKC: { reserveDecimals: 18 },
+  //   MOCKD: { reserveDecimals: 18 },
+  //   MOCKE: { reserveDecimals: 12 },
+  //   MOCKF: { reserveDecimals: 9 },
+  // } as SymbolMap<decimalsType>;
+  // let reserveSymbols = ["WES"];
+  // let reservesConfig = {
+  //   WES: { reserveDecimals: 18 },
+  // } as SymbolMap<decimalsType>;
 
-  for (const token of reserveSymbols) {
-    let decimals = reservesConfig[token].reserveDecimals;
-    await deploy(token, {
-      contract: "TestnetERC20",
-      from: deployer,
-      args: [
-        token, 
-        token.toUpperCase(), 
-        decimals, 
-        faucet.target
-      ],
-    }).then((res) => {
-      console.log("%s deployed to: %s, %s", token, res.address, res.newlyDeployed);
-    });
-  }
+  // for (const token of reserveSymbols) {
+  //   let decimals = reservesConfig[token].reserveDecimals;
+  //   await deploy(token, {
+  //     contract: "TestnetERC20",
+  //     from: deployer,
+  //     args: [
+  //       token, 
+  //       token.toUpperCase(), 
+  //       decimals, 
+  //       faucet.target
+  //     ],
+  //   }).then((res) => {
+  //     console.log("%s deployed to: %s, %s", token, res.address, res.newlyDeployed);
+  //   });
+  // }
 
 };
 

@@ -58,15 +58,15 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
     console.log("worldesLimitOrderBot init done!");
   });
 
-  //add worldesLimitOrder to worldesApproveProxy
-  tx = await worldesApproveProxy.unlockAddProxy(worldesLimitOrder.target);
-  await tx.wait().then(() => {
-    console.log("worldesLimitOrder unlockAddProxy to worldesApproveProxy!");
-  });
-  tx = await worldesApproveProxy.addWorldesProxy();
-  await tx.wait().then(() => {
-    console.log("worldesLimitOrder addWorldesProxy to worldesApproveProxy!");
-  });
+  // //add worldesLimitOrder to worldesApproveProxy
+  // tx = await worldesApproveProxy.unlockAddProxy(worldesLimitOrder.target);
+  // await tx.wait().then(() => {
+  //   console.log("worldesLimitOrder unlockAddProxy to worldesApproveProxy!");
+  // });
+  // tx = await worldesApproveProxy.addWorldesProxy();
+  // await tx.wait().then(() => {
+  //   console.log("worldesLimitOrder addWorldesProxy to worldesApproveProxy!");
+  // });
 
   console.log("limit-order done");
 }
@@ -74,4 +74,4 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
 //
 export default deployFunction;
 deployFunction.tags = ["limit-order"];
-deployFunction.dependencies = ["libs", "dvm"];  
+deployFunction.dependencies = ["libs"];  

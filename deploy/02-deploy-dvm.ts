@@ -17,6 +17,7 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   // ——————————————load deployed contacts————————————————————
   const cloneFactory = await getDeployedContractWithDefaultName("CloneFactory");
   const feeRateModelTemplate = await getDeployedContractWithDefaultName("FeeRateModel");
+  const worlderApproveProxy = await getDeployedContractWithDefaultName("WorldesApproveProxy");
 
   // ——————————————deploy dvm————————————————————
   console.log("start deploy dvm");
@@ -42,27 +43,6 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   });
   const dvmFactory = await getDeployedContractWithDefaultName("DVMFactory");
 
-  // Deploy WorldesApprove
-  console.log("- Deployment of WorldesApprove contract");
-  await deploy("WorldesApprove", {
-    contract: "WorldesApprove",
-    from: deployer,
-  }).then((res) => {
-    console.log("WorldesApprove deployed to: %s, %s", res.address, res.newlyDeployed);
-  });
-  const worlderApprove = await getDeployedContractWithDefaultName("WorldesApprove");
-
-  // Deploy WorldesApproveProxy
-  console.log("- Deployment of WorldesApproveProxy contract");
-  await deploy("WorldesApproveProxy", {
-    contract: "WorldesApproveProxy",
-    from: deployer,
-    args: [worlderApprove.target],
-  }).then((res) => {
-    console.log("WorldesApproveProxy deployed to: %s, %s", res.address, res.newlyDeployed);
-  });
-  const worlderApproveProxy = await getDeployedContractWithDefaultName("WorldesApproveProxy");
-
   // Deploy WorldesDvmProxy
   console.log("- Deployment of WorldesDvmProxy contract");
   await deploy("WorldesDvmProxy", {
@@ -71,6 +51,12 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
     args: [dvmFactory.target, await getWethAddress(), worlderApproveProxy.target],
   }).then((res) => {
     console.log("WorldesDvmProxy deployed to: %s, %s", res.address, res.newlyDeployed);
+  });
+  const worlderDvmProxy = await getDeployedContractWithDefaultName("WorldesDvmProxy");
+
+  tx = await worlderDvmProxy.initOwner(deployer);
+  await tx.wait().then(() => {
+    console.log("worlderDvmProxy set initOwner done!");
   });
 
   console.log("deploy dvm done");

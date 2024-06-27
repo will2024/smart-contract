@@ -1,0 +1,237 @@
+specVersion: 0.0.4
+description: worldes_dex.io
+schema:
+  file: ./graph/worldes_dex.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: WorldesDvmProxy
+    network: sepolia
+    source:
+      address: '0xB25f77bB079c240eBE2872D19BBa2154C6F5fBC0'
+      abi: WorldesDvmProxy
+      startBlock: 5746700
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./graph/src/mappings/smartRoute.ts
+      entities:
+        - Pair
+        - Token
+      abis:
+        - name: WorldesDvmProxy
+          file: ./graph/abis/WorldesDvmProxy.json
+      eventHandlers:
+        - event: OrderHistory(address,address,address,uint256,uint256)
+          handler: handleOrderHistory
+  - kind: ethereum/contract
+    name: DVMFactory
+    network: sepolia
+    source:
+      address: '0x4086136aAaF28491439081579C5eE4c77A237B8f'
+      abi: DVMFactory
+      startBlock: 5746700
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./graph/src/mappings/poolFactory.ts
+      entities:
+        - Pair
+        - Token
+      abis:
+        - name: DVMFactory
+          file: ./graph/abis/DVMFactory.json
+        - name: ERC20
+          file: ./graph/abis/ERC20.json
+        - name: DVM
+          file: ./graph/abis/DVM.json
+        - name: FeeRateModel
+          file: ./graph/abis/FeeRateModel.json
+      eventHandlers:
+        - event: NewDVM(address,address,address,address)
+          handler: handleNewDVM
+        - event: RemoveDVM(address)
+          handler: handleRemoveDVM
+  - kind: ethereum/contract
+    name: DSPFactory
+    network: sepolia
+    source:
+      address: '0x383DEc4E446080Fb453b88bc4268DD800a3b87aB'
+      abi: DSPFactory
+      startBlock: 5746700
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./graph/src/mappings/poolFactory.ts
+      entities:
+        - Pair
+        - Token
+      abis:
+        - name: DSPFactory
+          file: ./graph/abis/DSPFactory.json
+        - name: ERC20
+          file: ./graph/abis/ERC20.json
+        - name: DSP
+          file: ./graph/abis/DSP.json
+        - name: FeeRateModel
+          file: ./graph/abis/FeeRateModel.json
+      eventHandlers:
+        - event: NewDSP(address,address,address,address)
+          handler: handleNewDSP
+        - event: RemoveDSP(address)
+          handler: handleRemoveDSP
+  - kind: ethereum/contract
+    name: WorldesMineProxy
+    network: sepolia
+    source:
+      address: '0xb8a8587004736742664CD8EDDcA921C176f42F32'
+      abi: WorldesMineProxy
+      startBlock: 6084800
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./graph/src/mine/mineProxy.ts
+      entities:
+        - MinePool
+      abis:
+        - name: WorldesMineProxy
+          file: ./graph/abis/WorldesMineProxy.json
+        - name: ERC20Mine
+          file: ./graph/abis/ERC20Mine.json
+        - name: ERC20
+          file: ./graph/abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./graph/abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./graph/abis/ERC20NameBytes.json
+      eventHandlers:
+        - event: CreateMine(address,address,address,uint256)
+          handler: handleV2CreateMine
+  - kind: ethereum/contract
+    name: WorldesMineRegistry
+    network: sepolia
+    source:
+      address: '0x920D8C479E2f6101ab5Cc39615d39f99aaA3516B'
+      abi: WorldesMineRegistry
+      startBlock: 6084800
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./graph/src/mine/registry.ts
+      entities:
+        - MinePool
+      abis:
+        - name: WorldesMineProxy
+          file: ./graph/abis/WorldesMineProxy.json
+        - name: WorldesMineRegistry
+          file: ./graph/abis/WorldesMineRegistry.json
+        - name: ERC20Mine
+          file: ./graph/abis/ERC20Mine.json
+        - name: ERC20
+          file: ./graph/abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./graph/abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./graph/abis/ERC20NameBytes.json
+      eventHandlers:
+        - event: NewMine(address,address,bool,uint256)
+          handler: handleNewMine
+templates:
+  - kind: ethereum/contract
+    name: DVM
+    network: sepolia
+    source:
+      abi: DVM
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./graph/src/mappings/pool.ts
+      entities:
+        - Pair
+        - Token
+        - WorldesSwap
+      abis:
+        - name: DVM
+          file: ./graph/abis/DVM.json
+        - name: DVMFactory
+          file: ./graph/abis/DVMFactory.json
+        - name: FeeRateModel
+          file: ./graph/abis/FeeRateModel.json
+      eventHandlers:
+        - event: WorldesSwap(address,address,uint256,uint256,address,address)
+          handler: handleWorldesSwap
+        - event: BuyShares(address,uint256,uint256)
+          handler: handleBuyShares
+        - event: SellShares(address,address,uint256,uint256)
+          handler: handleSellShares
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+  - kind: ethereum/contract
+    name: DSP
+    network: sepolia
+    source:
+      abi: DSP
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./graph/src/mappings/pool.ts
+      entities:
+        - Pair
+        - Token
+        - WorldesSwap
+      abis:
+        - name: DVMFactory
+          file: ./graph/abis/DVMFactory.json
+        - name: DSPFactory
+          file: ./graph/abis/DSPFactory.json
+        - name: DVM
+          file: ./graph/abis/DVM.json
+        - name: DSP
+          file: ./graph/abis/DSP.json
+        - name: FeeRateModel
+          file: ./graph/abis/FeeRateModel.json
+      eventHandlers:
+        - event: WorldesSwap(address,address,uint256,uint256,address,address)
+          handler: handleWorldesSwap
+        - event: BuyShares(address,uint256,uint256)
+          handler: handleBuyShares
+        - event: SellShares(address,address,uint256,uint256)
+          handler: handleSellShares
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+  - kind: ethereum/contract
+    name: ERC20Mine
+    network: sepolia
+    source:
+      abi: ERC20Mine
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./graph/src/mine/mine.ts
+      entities:
+        - MinePool
+      abis:
+        - name: ERC20Mine
+          file: ./graph/abis/ERC20Mine.json
+      eventHandlers:
+        - event: Deposit(indexed address,uint256,uint256)
+          handler: handleDeposit
+        - event: Withdraw(indexed address,uint256,uint256)
+          handler: handleWithdraw
+        - event: DepositByRobot(indexed address,uint256)
+          handler: handleDepositByRobot
+        - event: WithdrawByRobot(indexed address,uint256)
+          handler: handleWithdrawByRobot
+        - event: NewRewardToken(indexed uint256,address)
+          handler: handleNewRewardToken
+        - event: UpdateEndTime(indexed uint256,uint256)
+          handler: handleUpdateEndTime
+        - event: UpdateReward(indexed uint256,uint256)
+          handler: handleUpdateReward

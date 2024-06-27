@@ -88,4 +88,4 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
 //
 export default deployFunction;
 deployFunction.tags = ["mine"];
-deployFunction.dependencies = ["libs", "dvm"];  
+deployFunction.dependencies = ["libs"];  

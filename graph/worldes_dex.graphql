@@ -930,8 +930,10 @@ type UserStake @entity{
 }
 
 type StakeDetail @entity{
-    "stake id"
+    "pool id - stake id"
     id: ID!
+    "stake id"
+    stakeId:BigInt!
     "user address"
     user:Bytes!
     "pool"

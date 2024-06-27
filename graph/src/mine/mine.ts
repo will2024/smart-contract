@@ -33,24 +33,6 @@ export function handleDeposit(event: Deposit): void {
     return;
   }
 
-  let stakeDetailId = event.params.stakeId.toHexString();
-  let stakeDetail = StakeDetail.load(stakeDetailId);
-  if (stakeDetail != null) {
-    log.error("stakeDetail is not null", []);
-    return;
-  }
-  
-  if (stakeDetail == null) {
-    stakeDetail = new StakeDetail(stakeDetailId);
-    stakeDetail.user = event.params.user;
-    stakeDetail.pool = minePool.id;
-    stakeDetail.amount = event.params.amount;
-    stakeDetail.stakeTime = event.block.timestamp;
-    stakeDetail.unlockTime = event.block.timestamp.plus(minePool.lockDuration!);
-    stakeDetail.withdrawTime = BigInt.fromI32(0);
-  }
-  stakeDetail.save();
-
   let userStakeHistoryId = event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toString());
   let userStakeHistory = StakeHistory.load(userStakeHistoryId);
   if (userStakeHistory != null) {
@@ -66,6 +48,22 @@ export function handleDeposit(event: Deposit): void {
     userStakeHistory.type = "DEPOSIT";
   }
   userStakeHistory.save();
+
+  if (event.params.stakeId != BigInt.fromI32(0)) {
+    let stakeDetailId = minePool.id.concat("-").concat(event.params.stakeId.toString());
+    let stakeDetail = StakeDetail.load(stakeDetailId);
+    if (stakeDetail == null) {
+      stakeDetail = new StakeDetail(stakeDetailId);
+      stakeDetail.stakeId = event.params.stakeId;
+      stakeDetail.user = event.params.user;
+      stakeDetail.pool = minePool.id;
+      stakeDetail.amount = event.params.amount;
+      stakeDetail.stakeTime = event.block.timestamp;
+      stakeDetail.unlockTime = event.block.timestamp.plus(minePool.lockDuration!);
+      stakeDetail.withdrawTime = BigInt.fromI32(0);
+    }
+    stakeDetail.save();
+  }
 }
 
 export function handleWithdraw(event: Withdraw): void {
@@ -90,15 +88,6 @@ export function handleWithdraw(event: Withdraw): void {
     return;
   }
 
-  let stakeDetailId = event.params.stakeId.toHexString();
-  let stakeDetail = StakeDetail.load(stakeDetailId);
-  if (stakeDetail == null) {
-    log.error("stakeDetail is null", []);
-    return;
-  }
-  stakeDetail.withdrawTime = event.block.timestamp;
-  stakeDetail.save();
-
   let userStakeHistoryId = event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toString());
   let userStakeHistory = StakeHistory.load(userStakeHistoryId);
   if (userStakeHistory != null) {
@@ -114,6 +103,15 @@ export function handleWithdraw(event: Withdraw): void {
     userStakeHistory.type = "WITHDRAW";
   }
   userStakeHistory.save();
+
+  if (event.params.stakeId != BigInt.fromI32(0)) {
+    let stakeDetailId = minePool.id.concat("-").concat(event.params.stakeId.toString());
+    let stakeDetail = StakeDetail.load(stakeDetailId);
+    if (stakeDetail != null) {
+      stakeDetail.withdrawTime = event.block.timestamp;
+      stakeDetail.save();
+    }
+  }
 }
 
 export function handleDepositByRobot(event: DepositByRobot): void {
