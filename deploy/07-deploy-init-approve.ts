@@ -25,21 +25,30 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   console.log("start deploy init");
 
   //init
-  tx = await worlderApprove.init(
-    deployer,
-    worlderApproveProxy.target
-  );
-  await tx.wait().then(() => {
-    console.log("worlderApprove init done!");
-  });
+  try {
+    tx = await worlderApprove.init(
+      deployer,
+      worlderApproveProxy.target
+    );
+    await tx.wait().then(() => {
+      console.log("worlderApprove init done!");
+    });
+  } catch (e) {
+    console.log("worlderApprove init failed!");
+  }
 
-  tx = await worlderApproveProxy.init(
-    deployer,
-    [worlderDvmProxy.target, worlderDspProxy.target, worldesMineProxy.target, worldesLimitOrder.target]
-  )
-  await tx.wait().then(() => {
-    console.log("worlderApproveProxy init done!");
-  });
+  try {
+
+    tx = await worlderApproveProxy.init(
+      deployer,
+      [worlderDvmProxy.target, worlderDspProxy.target, worldesMineProxy.target, worldesLimitOrder.target]
+    )
+    await tx.wait().then(() => {
+      console.log("worlderApproveProxy init done!");
+    });
+  } catch (e) {
+    console.log("worlderApproveProxy set initOwner failed!");
+  }
 
   console.log("init done");
 }

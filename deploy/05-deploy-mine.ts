@@ -4,6 +4,7 @@ import hre from "hardhat";
 
 import { config } from "dotenv";
 import { getDeployedContractWithDefaultName } from "../scripts/utils/env-utils";
+import { ADDRESS_ZERO } from "../graph/src/utils/constant";
 config({ path: "../.env" });
 
 const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
@@ -55,16 +56,24 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   const worldesMineProxy = await getDeployedContractWithDefaultName("WorldesMineProxy");
 
   //worldesMineRegistry owner init
-  tx = await worldesMineRegistry.initOwner(deployer);
-  await tx.wait().then(() => {
-    console.log("worldesMineRegistry initOwner done!");
-  });
+  try {
+    tx = await worldesMineRegistry.initOwner(deployer);
+    await tx.wait().then(() => {
+      console.log("worldesMineRegistry initOwner done!");
+    });
+  } catch (e) {
+    console.log("worldesMineRegistry initOwner failed!");
+  }
 
   //worldesMineProxy owner init
-  tx = await worldesMineProxy.initOwner(deployer);
-  await tx.wait().then(() => {
-    console.log("worldesMineProxy initOwner done!");
-  });
+  try {
+    tx = await worldesMineProxy.initOwner(deployer);
+    await tx.wait().then(() => {
+      console.log("worldesMineProxy initOwner done!");
+    });
+  } catch (e) {
+    console.log("worldesMineProxy initOwner failed!");
+  }
 
   //add worldesMineProxy to worldesMineRegistry adminList
   tx = await worldesMineRegistry.addAdminList(worldesMineProxy.target);

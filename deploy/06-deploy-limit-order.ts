@@ -30,14 +30,18 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   });
   const worldesLimitOrder = await getDeployedContractWithDefaultName("WorldesLimitOrder");
 
-  tx = await worldesLimitOrder.init(
-    deployer,   //owner
-    worldesApproveProxy.target, 
-    deployer   //fee reciver
-  );
-  await tx.wait().then(() => {
-    console.log("worldesLimitOrder init done!");
-  });
+  try {
+    tx = await worldesLimitOrder.init(
+      deployer,   //owner
+      worldesApproveProxy.target, 
+      deployer   //fee reciver
+    );
+    await tx.wait().then(() => {
+      console.log("worldesLimitOrder init done!");
+    });
+  } catch (e) {
+    console.log("worldesLimitOrder init failed!");
+  }
 
   //deploy worldesLimitOrderBot
   await deploy("WorldesLimitOrderBot", {
@@ -48,15 +52,19 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   });
   const worldesLimitOrderBot = await getDeployedContractWithDefaultName("WorldesLimitOrderBot");
 
-  tx = await worldesLimitOrderBot.init(
-    deployer,     //owner
-    worldesLimitOrder.target,
-    deployer,    //fee reciver
-    worldesApprove.target
-  );
-  await tx.wait().then(() => {
-    console.log("worldesLimitOrderBot init done!");
-  });
+  try {
+    tx = await worldesLimitOrderBot.init(
+      deployer,     //owner
+      worldesLimitOrder.target,
+      deployer,    //fee reciver
+      worldesApprove.target
+    );
+    await tx.wait().then(() => {
+      console.log("worldesLimitOrderBot init done!");
+    });
+  } catch (e) {
+    console.log("worldesLimitOrderBot init failed!");
+  }
 
   // //add worldesLimitOrder to worldesApproveProxy
   // tx = await worldesApproveProxy.unlockAddProxy(worldesLimitOrder.target);

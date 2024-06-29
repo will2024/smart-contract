@@ -54,10 +54,14 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   });
   const worlderDvmProxy = await getDeployedContractWithDefaultName("WorldesDvmProxy");
 
-  tx = await worlderDvmProxy.initOwner(deployer);
-  await tx.wait().then(() => {
-    console.log("worlderDvmProxy set initOwner done!");
-  });
+  try {
+    tx = await worlderDvmProxy.initOwner(deployer);
+    await tx.wait().then(() => {
+      console.log("worlderDvmProxy set initOwner done!");
+    });
+  } catch (error) {
+    console.log("worlderDvmProxy set initOwner error: ");
+  }
 
   console.log("deploy dvm done");
 };
