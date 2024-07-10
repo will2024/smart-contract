@@ -67,11 +67,8 @@ contract WorldesApproveProxy is InitializableOwnable {
     function removeWorldesProxy (address oldSwapProxy) public onlyOwner {
         _IS_ALLOWED_PROXY_[oldSwapProxy] = false;
     }
-
-    function setTimeLockEmergency (uint256 timeLock) public onlyOwner {
-        _TIMELOCK_ = timeLock;
-    }
     
+
     function claimTokens(
         address token,
         address who,

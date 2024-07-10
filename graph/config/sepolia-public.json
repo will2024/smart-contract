@@ -1,0 +1,23 @@
+{
+  "network": "sepolia",
+  "WorldesDvmProxy": {
+    "startBlock": 5981900,
+    "address": "0xA4cB3d7B9C75F77467E6933dF5287Ad817Df93A9"
+  },
+  "DVMFactory": {
+    "startBlock": 5981900,
+    "address": "0x88da362EF0F5C062ab544AB6528b726f9Dc8d2EB"
+  },
+  "DSPFactory": {
+    "startBlock": 5981900,
+    "address": "0x2737CE8Cc40fF185D6c39C99139291d677c60934"
+  },
+  "WorldesMineProxy": {
+    "startBlock": 5981900,
+    "address": "0x16a1903f0bd86ea419c25c79A4F1dbf37B129F7d"
+  },
+  "WorldesMineRegistry": {
+    "startBlock": 5981900,
+    "address": "0x5a35807D7f6a39267a5191cd69fCD14CF6901636"
+  }
+}

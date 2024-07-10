@@ -179,46 +179,6 @@ const func = async function () {
     WorldesLimitOrderBotParams
   );
 
-  // ——————————————verify mine————————————————————
-  const ERC20Mine = await deployments.get("ERC20Mine");
-  const WorldesMineRegistry = await deployments.get("WorldesMineRegistry");
-  const WorldesMineProxy = await deployments.get("WorldesMineProxy");
-
-  //verify ERC20Mine template
-  console.log("\n- Verifying ERC20Mine template...\n");
-  const ERC20MineParams :string[] = [];
-  await verifyContract(
-    "ERC20Mine",
-    ERC20Mine.address,
-    "contracts/mine/ERC20Mine.sol:ERC20Mine",
-    ERC20MineParams
-  );
-
-  //verify WorldesMineRegistry
-  console.log("\n- Verifying WorldesMineRegistry...\n");
-  const WorldesMineRegistryParams :string[] = [];
-  await verifyContract(
-    "WorldesMineRegistry",
-    WorldesMineRegistry.address,
-    "contracts/mine/WorldesMineRegistry.sol:WorldesMineRegistry",
-    WorldesMineRegistryParams
-  );
-
-  //verify WorldesMineProxy
-  console.log("\n- Verifying WorldesMineProxy...\n");
-  const WorldesMineProxyParams :string[] = [
-    CloneFactory.address,
-    ERC20Mine.address,
-    WorldesApproveProxy.address,
-    WorldesMineRegistry.address,
-  ];
-  await verifyContract(
-    "WorldesMineProxy",
-    WorldesMineProxy.address,
-    "contracts/proxy/WorldesMineProxy.sol:WorldesMineProxy",
-    WorldesMineProxyParams
-  );
-
 };
 
 func().catch((error) => {

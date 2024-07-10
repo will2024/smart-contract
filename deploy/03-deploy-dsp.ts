@@ -62,5 +62,5 @@ deployFunction.tags = ["dsp"];
 if (hre.network.name == "hardhat") {
   deployFunction.dependencies = ["libs", "dvm", "mocks"];  
 } else {
-  deployFunction.dependencies = ["libs", "dvm"];  
+  deployFunction.dependencies = ["dvm"];  
 }

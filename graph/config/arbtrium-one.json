@@ -1,0 +1,23 @@
+{
+  "network": "arbitrum-one",
+  "WorldesDvmProxy": {
+    "startBlock": 228711220,
+    "address": "0x7e93ED796aFD3D9a6e9a24c668153fBb981bE60E"
+  },
+  "DVMFactory": {
+    "startBlock": 228711220,
+    "address": "0x3bA0388E64900e274f2C6fCfaE34Eed65c01282A"
+  },
+  "DSPFactory": {
+    "startBlock": 228711220,
+    "address": "0xf3AadDd00C2E263d760BE52BB7142276B74E8b47"
+  },
+  "WorldesMineProxy": {
+    "startBlock": 228711220,
+    "address": "0x2eFda50249176e3ee1A26964Ad6496DC5aA2aCE7"
+  },
+  "WorldesMineRegistry": {
+    "startBlock": 228711220,
+    "address": "0xbBFD5E267F7DE25c3ADea492274E1C254513b39d"
+  }
+}

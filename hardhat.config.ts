@@ -49,6 +49,11 @@ const config: HardhatUserConfig = {
       accounts: [process.env.PRIVATE_KEY || ""],
       gas: 5000000,
     },
+    arb1: {
+      url: "https://arb1.arbitrum.io/rpc",
+      accounts: [process.env.PRIVATE_KEY || ""],
+      gas: 5000000,
+    },
   },
   namedAccounts: {
     deployer: {
