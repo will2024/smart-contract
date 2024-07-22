@@ -42,6 +42,17 @@ const func = async function () {
     FeeRateModelParams
   );
 
+  //verify FeeRateDIP3Impl
+  const FeeRateDIP3Impl = await deployments.get("FeeRateDIP3Impl");
+  console.log("\n- Verifying FeeRateDIP3Impl...\n");
+  const FeeRateDIP3ImplParams :string[] = [];
+  await verifyContract(
+    "FeeRateDIP3Impl",
+    FeeRateDIP3Impl.address,
+    "contracts/libraries/FeeRateDIP3Impl.sol:FeeRateDIP3Impl",
+    FeeRateDIP3ImplParams
+  );
+
   // verify DVM
   console.log("\n- Verifying DVM...\n");
   const DVMTemplateParams :string[] = [];

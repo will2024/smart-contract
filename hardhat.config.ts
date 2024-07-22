@@ -41,17 +41,17 @@ const config: HardhatUserConfig = {
     },
     goerli: {
       url: "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-      accounts: [process.env.PRIVATE_KEY || ""],
+      accounts: [process.env.TEST_PRIVATE_KEY || ""],
       gas: 5000000,
     },
     sepolia: {
       url: "https://sepolia.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-      accounts: [process.env.PRIVATE_KEY || ""],
+      accounts: [process.env.TEST_PRIVATE_KEY || ""],
       gas: 5000000,
     },
     arb1: {
       url: "https://arb1.arbitrum.io/rpc",
-      accounts: [process.env.PRIVATE_KEY || ""],
+      accounts: [process.env.ARBTRIUM_PRIVATE_KEY || ""],
       gas: 5000000,
     },
   },
@@ -68,7 +68,10 @@ const config: HardhatUserConfig = {
     currency: "USD",
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: {
+      arbitrumOne: process.env.ARBTRIUM_API_KEY || "",
+      sepolia: process.env.ETHERSCAN_API_KEY || "",
+    },
   },
   mocha: {
     timeout: 0,

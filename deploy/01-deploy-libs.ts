@@ -3,6 +3,7 @@ import { DeployFunction } from "hardhat-deploy/types";
 
 import { config } from "dotenv";
 import { getDeployedContractWithDefaultName } from "../scripts/utils/env-utils";
+import { ADDRESS_ZERO } from "../graph/src/utils/constant";
 config({ path: "../.env" });
 
 const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
@@ -31,6 +32,30 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
     from: deployer,
   }).then((res) => {
     console.log("FeeRateModelTemplate deployed to: %s, %s", res.address, res.newlyDeployed);
+  });
+  const feeRateModelTemplate = await getDeployedContractWithDefaultName("FeeRateModel");
+
+  let fee_owner = await feeRateModelTemplate._OWNER_();
+  if (fee_owner === ADDRESS_ZERO) {
+    let tx = await feeRateModelTemplate.initOwner(deployer);
+    await tx.wait().then(() => {
+      console.log("FeeRateModel initOwner done!");
+    });
+  }
+
+  // Deploy FeeRateDIP3Impl
+  console.log("- Deployment of FeeRateDIP3Impl contract");
+  await deploy("FeeRateDIP3Impl", {
+    contract: "FeeRateDIP3Impl",
+    from: deployer,
+  }).then((res) => {
+    console.log("FeeRateDIP3Impl deployed to: %s, %s", res.address, res.newlyDeployed);
+  });
+  const feeRateDIP3Impl = await getDeployedContractWithDefaultName("FeeRateDIP3Impl");
+
+  let tx = await feeRateModelTemplate.setFeeProxy(feeRateDIP3Impl.target);
+  await tx.wait().then(() => {
+    console.log("FeeRateModel setFeeProxy done!");
   });
 
   // Deploy WorldesApprove
