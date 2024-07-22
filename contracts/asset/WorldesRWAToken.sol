@@ -2,15 +2,14 @@
 // Compatible with OpenZeppelin Contracts ^5.0.0
 pragma solidity ^0.8.10;
 
-import {Ownable} from  "@openzeppelin/contracts/access/Ownable.sol";
-import {Pausable} from  "@openzeppelin/contracts/security/Pausable.sol";
-import {ERC20} from  "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import {ERC20Permit} from  "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
+import {OwnableUpgradeable} from  "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import {PausableUpgradeable} from  "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
+import {ERC20PermitUpgradeable} from  "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/draft-ERC20PermitUpgradeable.sol";
 
 contract WorldesRWAToken is 
-    Ownable, 
-    Pausable,
-    ERC20Permit
+    OwnableUpgradeable, 
+    PausableUpgradeable,
+    ERC20PermitUpgradeable
 {
     uint256 public _MAX_SUPPLY_;
     uint8 private _decimals = 18;
@@ -33,7 +32,33 @@ contract WorldesRWAToken is
 
     event SetBlackList(address indexed sender, address indexed newAddr, bool enable);
 
-    constructor(
+    // constructor(
+    //     address propertyRights,
+    //     address owner,
+    //     address listAdmin,
+    //     address to,
+    //     string memory name,
+    //     string memory symbol,
+    //     uint256 initialSupply,
+    //     uint8 intitialDecimals
+    // )
+    //     ERC20(name, symbol)
+    //     ERC20Permit("RWAToken")
+    // {
+    //     require(owner != address(0) && listAdmin != address(0) && to != address(0), "WorldesRWAToken: error zero address");
+    //     _transferOwnership(owner);
+    //     _decimals = intitialDecimals;
+    //     _LIST_ADMIN_ = listAdmin;
+    //     _WPR_ADDRESS_ = propertyRights;
+    //     _MAX_SUPPLY_ = initialSupply * 10 ** intitialDecimals;
+    //     _mint(to, initialSupply * 10 ** intitialDecimals);
+    // }
+
+    constructor() {
+        _disableInitializers();
+    }
+
+    function initialize(
         address propertyRights,
         address owner,
         address listAdmin,
@@ -42,10 +67,11 @@ contract WorldesRWAToken is
         string memory symbol,
         uint256 initialSupply,
         uint8 intitialDecimals
-    )
-        ERC20(name, symbol)
-        ERC20Permit("RWAToken")
-    {
+    ) external initializer {
+        __Ownable_init();
+        __Pausable_init();
+        __ERC20_init(name, symbol);
+        __ERC20Permit_init("RWAToken");
         require(owner != address(0) && listAdmin != address(0) && to != address(0), "WorldesRWAToken: error zero address");
         _transferOwnership(owner);
         _decimals = intitialDecimals;
@@ -120,7 +146,7 @@ contract WorldesRWAToken is
         address from,
         address to,
         uint256 amount
-    ) internal override(ERC20) whenNotPaused() {
+    ) internal override whenNotPaused() {
         
         if (_WHITE_LISTED_ENABLE_) {
             require(isWhiteListed[from] && isWhiteListed[to], "WorldesRWAToken: white list condition not met");

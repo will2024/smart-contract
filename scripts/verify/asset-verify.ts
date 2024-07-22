@@ -7,10 +7,22 @@ const func = async function () {
   const { getNamedAccounts, deployments } = hre;
   const { deployer } = await getNamedAccounts();
 
+  //verify WorldesRWAToken
+  console.log("\n- Verifying WorldesRWAToken...\n");
+  const WorldesRWAToken = await deployments.get("WorldesRWAToken");
+  const WorldesRWATokenParams :string[] = [];
+  await verifyContract(
+    "WorldesRWAToken",
+    WorldesRWAToken.address,
+    "contracts/asset/WorldesRWAToken.sol:WorldesRWAToken",
+    WorldesRWATokenParams
+  );
+
   //verify WorldesRWATokenFactory
   console.log("\n- Verifying WorldesRWATokenFactory...\n");
+  const CloneFactory = await deployments.get("CloneFactory");
   const WorldesRWATokenFactory = await deployments.get("WorldesRWATokenFactory");
-  const WorldesRWATokenFactoryParams :string[] = [deployer];
+  const WorldesRWATokenFactoryParams :string[] = [deployer, CloneFactory.address, WorldesRWAToken.address];
   await verifyContract(
     "WorldesRWATokenFactory",
     WorldesRWATokenFactory.address,

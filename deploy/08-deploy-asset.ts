@@ -15,16 +15,26 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   let tx;
   
   // ——————————————load deployed contacts————————————————————
+  const CloneFactory = await deployments.get("CloneFactory");
   
 
   // ——————————————deploy asset————————————————————
   console.log("start deploy asset");
 
+  //deploy WorldesRWAToken Template
+  await deploy("WorldesRWAToken", {
+    contract: "WorldesRWAToken",
+    from: deployer,
+  }).then((res) => {
+    console.log("WorldesRWAToken deployed to: %s, %s", res.address, res.newlyDeployed);
+  });
+  const worldesTokenTemplate = await deployments.get("WorldesRWAToken");
+
   //deploy WorldesRWATokenFactory
   await deploy("WorldesRWATokenFactory", {
     contract: "WorldesRWATokenFactory",
     from: deployer,
-    args: [deployer],
+    args: [deployer, CloneFactory.address, worldesTokenTemplate.address],
   }).then((res) => {
     console.log("WorldesRWATokenFactory deployed to: %s, %s", res.address, res.newlyDeployed);
   });
