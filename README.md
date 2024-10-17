@@ -11,3 +11,15 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.ts
 ```
+# deploy graph
+
+```shell
+
+npm run prepare:arbtrium
+
+npm run codegen && npm run build 
+
+npm run auth
+
+npm run deploy
+```
