@@ -5,11 +5,14 @@ This project demonstrates a basic Hardhat use case. It comes with a sample contr
 Try running some of the following tasks:
 
 ```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
+npm install
+npx hardhat compile
+# delpoy timeLock
+npx hardhat deploy --network arb1 --tags timeLock
+# verify timeLock contract
+npx hardhat run --network arb1 scripts/verify/timeLock-verify.ts
+
+
 ```
 # deploy graph
 
